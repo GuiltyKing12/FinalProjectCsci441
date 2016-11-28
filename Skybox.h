@@ -17,8 +17,8 @@
 class Skybox {
 public:
     Skybox() {
-        loadSkybox();
         size = 5000;
+        loadSkybox();
     }
     
     Skybox(int size) {
