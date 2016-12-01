@@ -1,0 +1,13 @@
+TODO:
+High
+  Planet class or some sort of representation of planet
+  Skybox -> cubemapping
+  how much physics to add vs predetermined
+  shaders for applying textures and effects
+
+Medium
+  Planet Textures
+
+Low
+  Player controlled spaceship
+

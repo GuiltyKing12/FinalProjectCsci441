@@ -21,7 +21,7 @@
 ## compile against.
 ########################################
 
-TARGET = a6
+TARGET = finalProject
 SOURCES = $(wildcard *.cpp)
 OBJECTS = $(SOURCES:.cpp=.o)
 
