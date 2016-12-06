@@ -37,6 +37,8 @@
 #include <algorithm>	
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "utilities/Planet.h"
 #include "utilities/Shader_Utils.h"
 #include "utilities/Point.h"
 #include "utilities/Vector.h"
@@ -72,6 +74,8 @@ string magicNumber = "";
 GLuint shaderProgramHandle = 0;             // handle to our shader program
 GLuint uniformTimeLoc = 0;					// location of our time uniform variable
 GLuint crateTexture;
+
+Planet testPlanet();
 
 
 // END GLOBAL VARIABLES ///////////////////////////////////////////////////////

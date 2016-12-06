@@ -2,6 +2,8 @@
 
 #include <vector>
 #include "Planet.h"
+#include "Point.h"
+#include "Vector.h"
 
 class SolarSystem {
 public:

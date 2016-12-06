@@ -1,11 +1,17 @@
 #pragma once
 
-#include "src/Point.h"
-#include "src/Vector.h"
+#include "Point.h"
+#include "Vector.h"
 
 class Planet {
 public:
-    Planet() {}
+    Planet() {
+        position = Point(0.0, 0.0, 0.0);
+        direction = Vector(0.0, 1.0, 0.0);
+        revolution = 10;
+        planetRadius = 10;
+        gravityRadius = 20;
+    }
     
     ~Planet() {}
     

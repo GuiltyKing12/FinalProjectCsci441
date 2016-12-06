@@ -25,11 +25,20 @@ TARGET = finalProject
 SOURCES = $(wildcard *.cpp)
 OBJECTS = $(SOURCES:.cpp=.o)
 
+COMP = 0
+
 LOCAL_INC_PATH = /opt/local/include
 LOCAL_LIB_PATH = /opt/local/lib
 LOCAL_BIN_PATH = /opt/local/bin
 
-BUILDING_IN_LAB = 1
+ifeq ($(COMP), 0)
+LOCAL_INC_PATH = /Users/BrandonHer/Codes/lib/SOIL/
+LOCAL_LIB_PATH = /Users/BrandonHer/Codes/lib/libs
+else ifeq ($(COMP), 1)
+else ifeq ($(COMP), 2)
+endif
+
+BUILDING_IN_LAB = 0
 
 USING_GLEW = 1
 USING_GLUI = 0
