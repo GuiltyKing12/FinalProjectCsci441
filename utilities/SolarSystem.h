@@ -15,7 +15,7 @@ public:
     void update();
     
 protected:
-    vector<Planet> planets;
+    std::vector<Planet> planets;
     bool pause;
     bool gravity;
 };

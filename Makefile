@@ -23,6 +23,7 @@
 
 TARGET = finalProject
 SOURCES = $(wildcard *.cpp)
+SOURCES += $(wildcard src/*.cpp)
 OBJECTS = $(SOURCES:.cpp=.o)
 
 COMP = 0
@@ -64,6 +65,8 @@ USING_SOIL = 1
 
 CXX    = g++
 CFLAGS = -Wall -g
+
+INCPATH += -I./utilities
 
 LAB_INC_PATH = C:/sw/opengl/include
 LAB_LIB_PATH = C:/sw/opengl/lib

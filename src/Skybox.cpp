@@ -3,7 +3,7 @@
 void Skybox::loadSkybox() {
     backSide =
     SOIL_load_OGL_texture(
-                          "textures/moonwaw_bk.tga",
+                          "textures/ame_nebula/purplenebula_bk.tga",
                           SOIL_LOAD_AUTO,
                           SOIL_CREATE_NEW_ID,
                           SOIL_FLAG_MIPMAPS
@@ -13,7 +13,7 @@ void Skybox::loadSkybox() {
     
     bottomSide =
     SOIL_load_OGL_texture(
-                          "textures/moonwaw_dn.tga",
+                          "textures/ame_nebula/purplenebula_dn.tga",
                           SOIL_LOAD_AUTO,
                           SOIL_CREATE_NEW_ID,
                           SOIL_FLAG_MIPMAPS
@@ -23,7 +23,7 @@ void Skybox::loadSkybox() {
     
     frontSide =
     SOIL_load_OGL_texture(
-                          "textures/moonwaw_ft.tga",
+                          "textures/ame_nebula/purplenebula_ft.tga",
                           SOIL_LOAD_AUTO,
                           SOIL_CREATE_NEW_ID,
                           SOIL_FLAG_MIPMAPS
@@ -33,7 +33,7 @@ void Skybox::loadSkybox() {
     
     leftSide =
     SOIL_load_OGL_texture(
-                          "textures/moonwaw_lf.tga",
+                          "textures/ame_nebula/purplenebula_lf.tga",
                           SOIL_LOAD_AUTO,
                           SOIL_CREATE_NEW_ID,
                           SOIL_FLAG_MIPMAPS
@@ -43,7 +43,7 @@ void Skybox::loadSkybox() {
     
     rightSide =
     SOIL_load_OGL_texture(
-                          "textures/moonwaw_rt.tga",
+                          "textures/ame_nebula/purplenebula_rt.tga",
                           SOIL_LOAD_AUTO,
                           SOIL_CREATE_NEW_ID,
                           SOIL_FLAG_MIPMAPS
@@ -53,7 +53,7 @@ void Skybox::loadSkybox() {
     
     topSide =
     SOIL_load_OGL_texture(
-                          "textures/moonwaw_up.tga",
+                          "textures/ame_nebula/purplenebula_up.tga",
                           SOIL_LOAD_AUTO,
                           SOIL_CREATE_NEW_ID,
                           SOIL_FLAG_MIPMAPS
