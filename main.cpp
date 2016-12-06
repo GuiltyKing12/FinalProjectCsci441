@@ -67,8 +67,10 @@ Vector up(0, 1, 0);
 Point cameraXYZ;
 Point pos;
 
-GLuint particleTexHandle;
-GLuint particleTexHandle2;
+GLuint framebufferHandle;
+GLuint renderbufferHandle;
+GLuint framebufferWidth = 1024, framebufferHeight = 1024; // set these to the desired size
+GLuint fboTexHandle;
 
 // calculates and then displays the fps to the screen
 void calculateFPS() {
@@ -185,35 +187,75 @@ void fpvLook() {
 }
 
 void render() {
-    // drawing on back buffer -> clear color and depth to draw
-    glDrawBuffer(GL_BACK);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glEnable(GL_SCISSOR_TEST);
+    glBindFramebuffer( GL_FRAMEBUFFER, framebufferHandle );
+    glPushAttrib( GL_VIEWPORT_BIT ); {
+        glViewport(0, 0, framebufferWidth, framebufferHeight);
+        /* render our scene as desired */
+        /* set camera, lights, materials, draw objects, etc. */
+        // make sure that OpenGL has finished rendering everything...
+        
+        glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        // drawing on back buffer -> clear color and depth to draw
+        glDrawBuffer(GL_BACK);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glEnable(GL_SCISSOR_TEST);
+        
+        // we scissor and set the viewport for main scene to be whole window
+        scissorScene(framebufferWidth, framebufferHeight);
+        
+        // set up the projection and modelview matrices
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        gluPerspective(45.0, (float) window_width / window_height, 0.1, 100000);
+        
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        
+        // set the camera to look, if free cam we look in its direction
+        // else we are in arcball looking at the current hero
+        mainCamera.look(Point(0,0,0));
+        glLightfv( GL_LIGHT0, GL_POSITION, lPosition );
+        
+        // draws main scene first time
+        drawScene(false);
+        
+        // if fpv camera on we then repeat above process for a second view
+        //fpvLook();
+        
+        // draws the fps to bottom left of screen
+        drawFps();
+        glFlush(); glFinish();
+        // and clean up. detatch the framebuffer so we render to the screen again.
+        // the first pass is now inside of that texture! (fboTexHandle!)
+    }	; glPopAttrib();
     
-    // we scissor and set the viewport for main scene to be whole window
-    scissorScene(window_width, window_height);
+    // texture fbo object
+    glBindFramebuffer( GL_FRAMEBUFFER, 0 );
+    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glMatrixMode( GL_PROJECTION );
+    glPushMatrix(); {
+        glLoadIdentity();
+        gluOrtho2D( -1, 1, -1, 1 );
+        
+        //and the modelview...
+        glMatrixMode( GL_MODELVIEW );
+        glLoadIdentity();
+        glDisable( GL_LIGHTING );
+        glDisable( GL_DEPTH_TEST );
+        glEnable( GL_TEXTURE_2D );
+        glBindTexture( GL_TEXTURE_2D, fboTexHandle );
+        glBegin(GL_QUADS); {
+            glTexCoord2f(0,0); glVertex2f(-1,-1);
+            glTexCoord2f(1,0); glVertex2f( 1,-1);
+            glTexCoord2f(1,1); glVertex2f( 1, 1);
+            glTexCoord2f(0,1); glVertex2f(-1, 1);
+        }; glEnd();
+        glDisable( GL_TEXTURE_2D );
+        glEnable( GL_DEPTH_TEST );
+        glEnable( GL_LIGHTING );
+    }; glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
     
-    // set up the projection and modelview matrices
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(45.0, (float) window_width / window_height, 0.1, 100000);
-    
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    
-    // set the camera to look, if free cam we look in its direction
-    // else we are in arcball looking at the current hero
-    mainCamera.look(Point(0,0,0));
-    glLightfv( GL_LIGHT0, GL_POSITION, lPosition );
-    
-    // draws main scene first time
-    drawScene(false);
-    
-    // if fpv camera on we then repeat above process for a second view
-    //fpvLook();
-    
-    // draws the fps to bottom left of screen
-    drawFps();
     glutSwapBuffers();
 }
 
@@ -418,6 +460,50 @@ void init_scene() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
     generate_env_dl();
+    
+    glGenFramebuffers( 1, &framebufferHandle );
+    glBindFramebuffer( GL_FRAMEBUFFER, framebufferHandle );
+    
+    glGenRenderbuffers( 1, &renderbufferHandle );
+    glBindRenderbuffer( GL_RENDERBUFFER, renderbufferHandle );
+    glRenderbufferStorage( GL_RENDERBUFFER,
+                          GL_DEPTH_COMPONENT,
+                          framebufferWidth,
+                          framebufferHeight );
+    glFramebufferRenderbuffer( GL_FRAMEBUFFER,
+                              GL_DEPTH_ATTACHMENT,
+                              GL_RENDERBUFFER,
+                              renderbufferHandle );
+    
+    glGenTextures(1, &fboTexHandle);
+    glBindTexture(GL_TEXTURE_2D, fboTexHandle);
+    // SET UP ALL of the texture parameters
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
+    // initialize it with nothing! no image! just tell it to hold that much space.
+    glTexImage2D( GL_TEXTURE_2D,
+                 0,
+                 GL_RGBA, //this needs to match the color buffer requested from GLUT
+                 framebufferWidth,
+                 framebufferHeight,
+                 0,
+                 GL_RGBA,
+                 GL_UNSIGNED_BYTE,
+                 NULL );
+    // and finally, attach that texture to the FBO
+    glFramebufferTexture2D( GL_FRAMEBUFFER,
+                           GL_COLOR_ATTACHMENT0,
+                           GL_TEXTURE_2D,
+                           fboTexHandle,
+                           0 );
+    // check for any errors
+    GLenum status = glCheckFramebufferStatus( GL_FRAMEBUFFER );
+    if( status == GL_FRAMEBUFFER_COMPLETE )
+        printf( "Framebuffer initialized completely!\n" );
+    else
+        printf( "Framebuffer FAILED TO INITIALIZE COMPLETELY.\n" );
 }
 
 void register_callbacks() {
