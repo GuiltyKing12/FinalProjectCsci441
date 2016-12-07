@@ -64,7 +64,7 @@ USING_SOIL = 1
 #############################
 
 CXX    = g++
-CFLAGS = -Wall -g
+CFLAGS = -Wall -g -std=c++11
 
 INCPATH += -I./utilities
 

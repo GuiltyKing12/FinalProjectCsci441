@@ -29,6 +29,7 @@
 #include "utilities/Skybox.h"
 #include "utilities/Shader_Utils.h"
 #include "utilities/Planet.h"
+#include "utilities/SolarSystem.h"
 
 using namespace std;
 
@@ -47,18 +48,18 @@ float fps;
 
 Skybox* skybox;
 Planet testPlanet;
+SolarSystem solarSystem;
 
 bool fpvMode = false;
 
-float lPosition[4] = { 10, 10, 0, 1 };
+float lPosition[4] = { 0, 0, 0, 1 };
+
+string solarsystemfile = "solarsystem.txt";
 
 // Camera
 Camera mainCamera;
 Camera fpvCamera;
 
-float wh_x = 1.0;
-float wh_z = 1.0;
-float wh_h = 0.0;
 bool keys[256];
 int a = 0;
 
@@ -159,6 +160,7 @@ void resize(int w, int h) {
 void drawScene(bool fpv) {
     glCallList(envDL);
     testPlanet.draw();
+    solarSystem.draw();
 }
 
 void scissorScene(size_t w, size_t h) {
@@ -565,10 +567,12 @@ int main(int argc, char** argv) {
     // set camera to arcball initially
     float cameraTheta = M_PI / 3.0f;
     float cameraPhi = 2.8f;
-    float cameraRadius = 300;
+    float cameraRadius = 3000;
     mainCamera = Camera(2, 0, 0, 0, cameraRadius, cameraTheta, cameraPhi);
-    skybox = new Skybox();
+    skybox = new Skybox(10000);
     
+    testPlanet = Planet(100, Point(100, 200, 100), Vector(0,0, 0), 10.0);
+    solarSystem = SolarSystem(solarsystemfile);
     init_scene();
     create_menu();
     printf( "[INFO]: OpenGL Scene set up\n" );

@@ -1,20 +1,16 @@
 #include "Planet.h"
-// Very important!!!
-// GLEW MUST BE INCLUDED BEFORE gl.h is included
-#include <GL/glew.h>		// OpenGL Extension Wrangler
 
-// Include our OpenGL & GLUT libraries
-// GLUT automatically includes glu.h and gl.h
-#ifdef __APPLE__
-#include <GLUT/glut.h>	// GLUT, GLU, GL Libraries for Mac
-#include <SOIL.h>  	// Simple OpenGL Image Library
-#else
-#include <GL/glut.h>	// GLUT, GLU, GL Libraries for Windows or *nix
-#include <SOIL/SOIL.h>  	// Simple OpenGL Image Library
-#endif
 void Planet::draw() {
     glPushMatrix();
     {
+        GLfloat diffCol[4] = { .65, .8, .9, 1 };
+        GLfloat specCol[4] = { 1.0, 1.0, 1.0, 1 };
+        GLfloat ambCol[4] = { 0.8, 0.8, 0.8, 1 };
+        
+        glMaterialfv( GL_FRONT_AND_BACK, GL_DIFFUSE, diffCol );
+        glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR, specCol );
+        glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, 96.0 );
+        glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT, ambCol );
         glTranslatef(position.getX(), position.getY(), position.getZ());
         glutSolidSphere(planetRadius, 30, 30);
     }
