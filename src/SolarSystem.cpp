@@ -56,6 +56,7 @@ bool SolarSystem::readfile(string inputfile) {
         }
         number--;
     }
+    return true;
 }
 
 void SolarSystem::split(const string &s, const char* delim, vector<string> & v){

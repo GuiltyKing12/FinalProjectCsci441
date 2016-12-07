@@ -567,9 +567,9 @@ int main(int argc, char** argv) {
     // set camera to arcball initially
     float cameraTheta = M_PI / 3.0f;
     float cameraPhi = 2.8f;
-    float cameraRadius = 3000;
+    float cameraRadius = 6000;
     mainCamera = Camera(2, 0, 0, 0, cameraRadius, cameraTheta, cameraPhi);
-    skybox = new Skybox(10000);
+    skybox = new Skybox(20000);
     
     testPlanet = Planet(100, Point(100, 200, 100), Vector(0,0, 0), 10.0);
     solarSystem = SolarSystem(solarsystemfile);

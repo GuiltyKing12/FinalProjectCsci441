@@ -14,14 +14,14 @@
 /** MODE 1 - Free cam control **/
 void Camera::moveForward() {
     if(mode == 1) {
-        position = Point(camDir.getX() * 2+position.getX(), camDir.getY() * 2+position.getY(), camDir.getZ() * 2+position.getZ());
+        position = Point(camDir.getX() * 5+position.getX(), camDir.getY() * 5+position.getY(), camDir.getZ() * 5+position.getZ());
         recomputeOrientation();
     }
 }
 
 void Camera::moveBackward() {
     if(mode == 1) {
-        position = Point(camDir.getX() * -2+position.getX(), camDir.getY() * -2+position.getY(), camDir.getZ() * -2+position.getZ());
+        position = Point(camDir.getX() * -5+position.getX(), camDir.getY() * -5+position.getY(), camDir.getZ() * -5+position.getZ());
         recomputeOrientation();
     }
 }
