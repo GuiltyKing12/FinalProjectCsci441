@@ -1,5 +1,5 @@
 #include "SolarSystem.h"
-
+#include <iostream>
 using namespace std;
 
 void SolarSystem::draw() {
@@ -10,7 +10,10 @@ void SolarSystem::draw() {
 }
 
 void SolarSystem::update() {
-    
+    sun.update();
+    for(int i = 0; i < planets.size(); i++) {
+        planets[i].update();
+    }
 }
 
 void SolarSystem::create() {
@@ -33,6 +36,8 @@ bool SolarSystem::readfile(string inputfile) {
         string delim = ",";
         split(line, delim.c_str(), attr);
         
+        cout << line << endl;
+        
         if(attr[0] == "S") {
             fprintf(stdout, "Sun\n");
             Point sunpos = Point(atoi(attr[2].c_str()),
@@ -41,7 +46,7 @@ bool SolarSystem::readfile(string inputfile) {
             
             sun = Sun(atof(attr[1].c_str()),
                       sunpos,
-                      atof(attr[2].c_str()));
+                      atof(attr[5].c_str()));
         }
         else if(attr[0] == "P") {
             fprintf(stdout, "Planet\n");
@@ -52,7 +57,7 @@ bool SolarSystem::readfile(string inputfile) {
             planets.push_back(Planet(atof(attr[1].c_str()),
                                      planpos,
                                      Vector(0, 1, 0),
-                                     atof(attr[2].c_str())));
+                                     atof(attr[5].c_str())));
         }
         number--;
     }

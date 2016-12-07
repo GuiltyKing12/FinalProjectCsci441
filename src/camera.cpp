@@ -14,14 +14,14 @@
 /** MODE 1 - Free cam control **/
 void Camera::moveForward() {
     if(mode == 1) {
-        position = Point(camDir.getX() * 5+position.getX(), camDir.getY() * 5+position.getY(), camDir.getZ() * 5+position.getZ());
+        position = position + 50*camDir;
         recomputeOrientation();
     }
 }
 
 void Camera::moveBackward() {
     if(mode == 1) {
-        position = Point(camDir.getX() * -5+position.getX(), camDir.getY() * -5+position.getY(), camDir.getZ() * -5+position.getZ());
+        position = position + -50*camDir;
         recomputeOrientation();
     }
 }
@@ -46,7 +46,7 @@ void Camera::revolve(float theta, float phi) {
 void Camera::switchMode(int setMode) {
     mode = setMode;
     if(setMode == 1) {
-        position =  Point(-camDir.getX() * sinf(camTheta) * sin(camPhi) + 100, -camDir.getY() * -cosf(camPhi) + 100, -camDir.getZ() * -cosf(camTheta) * sinf(camPhi) + 100);
+        position =  Point(-camDir.getX() * sinf(camTheta) * sin(camPhi) + camRadius, -camDir.getY() * -cosf(camPhi) + camRadius, -camDir.getZ() * -cosf(camTheta) * sinf(camPhi) + camRadius);
         camPhi = M_PI / 3.0f;
         camTheta = -1.0f;
     }

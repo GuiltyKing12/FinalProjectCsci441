@@ -1,4 +1,7 @@
 #include "Planet.h"
+#include <iostream>
+
+using namespace std;
 
 void Planet::draw() {
     glPushMatrix();
@@ -12,11 +15,15 @@ void Planet::draw() {
         glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, 96.0 );
         glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT, ambCol );
         glTranslatef(position.getX(), position.getY(), position.getZ());
+        glRotatef(currentRevolution, 0, 1, 0);
         glutSolidSphere(planetRadius, 30, 30);
+        glTranslatef(planetRadius+100, 0, 0);
+        glutSolidSphere(planetRadius/10, 30, 30);
     }
     glPopMatrix();
 }
 
 void Planet::update() {
-    
+    currentRevolution += revolution;
+    if(currentRevolution > 360) currentRevolution = currentRevolution - 360;
 }

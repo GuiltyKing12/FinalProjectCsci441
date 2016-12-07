@@ -35,8 +35,8 @@ using namespace std;
 
 // Global variables.
 
-size_t window_width = 640;
-size_t window_height = 480;
+size_t window_width = 1024;
+size_t window_height = 1024;
 
 GLuint envDL;
 
@@ -257,6 +257,8 @@ void render() {
         glEnable( GL_LIGHTING );
     }; glMatrixMode(GL_PROJECTION);
     glPopMatrix();
+    
+    solarSystem.update();
     
     glutSwapBuffers();
 }

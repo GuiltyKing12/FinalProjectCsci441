@@ -23,6 +23,7 @@ public:
         position = Point(0.0, 0.0, 0.0);
         direction = Vector(0.0, 1.0, 0.0);
         revolution = 10;
+        currentRevolution = 0;
         planetRadius = 10;
         gravityRadius = 20;
     }
@@ -32,6 +33,7 @@ public:
         position = pos;
         direction = dir;
         this->revolution = revolution;
+        currentRevolution = 0;
     }
     
     ~Planet() {}
@@ -44,6 +46,7 @@ protected:
     Vector direction;
     
     double revolution;
+    double currentRevolution;
     
     // Extra stuff
     double planetRadius;
