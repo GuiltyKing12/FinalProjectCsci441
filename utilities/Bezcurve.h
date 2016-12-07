@@ -1,5 +1,9 @@
 #pragma once
 
+#include <vector>
+#include <string>
+#include "Point.h"
+
 class Bezcurve {
 public:
     Bezcurve() {}
@@ -9,7 +13,7 @@ public:
     }
     
     void draw();
-    Point getPosition();
+    Point getPosition(double t);
     
 protected:
     std::vector<Point> bezpoints;
