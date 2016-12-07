@@ -28,12 +28,14 @@ public:
         gravityRadius = 20;
     }
     
-    Planet(double radius, Point pos, Vector dir, double revolution) {
+    Planet(double radius, Point pos, Vector dir, double revolution, GLuint handle) {
         planetRadius = radius;
         position = pos;
         direction = dir;
         this->revolution = revolution;
         currentRevolution = 0;
+        planet = gluNewQuadric();
+        texHandle = handle;
     }
     
     ~Planet() {}
@@ -45,6 +47,8 @@ protected:
     Point position;
     Vector direction;
     
+    GLUquadric* planet;
+    GLuint texHandle;
     double revolution;
     double currentRevolution;
     

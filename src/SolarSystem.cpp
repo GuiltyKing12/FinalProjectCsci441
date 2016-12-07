@@ -44,9 +44,19 @@ bool SolarSystem::readfile(string inputfile) {
                                  atoi(attr[3].c_str()),
                                  atoi(attr[4].c_str()));
             
+            GLuint texHandle = SOIL_load_OGL_texture(
+                                                     "textures/planets/sunmap.jpg",
+                                                     SOIL_LOAD_AUTO,
+                                                     SOIL_CREATE_NEW_ID,
+                                                     SOIL_FLAG_MIPMAPS
+                                                     | SOIL_FLAG_INVERT_Y
+                                                     | SOIL_FLAG_COMPRESS_TO_DXT
+                                                     );
+            
             sun = Sun(atof(attr[1].c_str()),
                       sunpos,
-                      atof(attr[5].c_str()));
+                      atof(attr[5].c_str()),
+                      texHandle);
         }
         else if(attr[0] == "P") {
             fprintf(stdout, "Planet\n");
@@ -54,13 +64,29 @@ bool SolarSystem::readfile(string inputfile) {
                                   atoi(attr[3].c_str()),
                                   atoi(attr[4].c_str()));
             
+            string image = "textures/planets/" + attr[6].substr(1);
+            string test = "textures/planets/jupitermap.jpg";
+            GLuint texHandle = SOIL_load_OGL_texture(
+                                                     image.c_str(),
+                                                     SOIL_LOAD_AUTO,
+                                                     SOIL_CREATE_NEW_ID,
+                                                     SOIL_FLAG_MIPMAPS
+                                                     | SOIL_FLAG_INVERT_Y
+                                                     | SOIL_FLAG_COMPRESS_TO_DXT
+                                                     );
+            
+            cout << image << endl;
+            cout << texHandle << endl;
+            
             planets.push_back(Planet(atof(attr[1].c_str()),
                                      planpos,
                                      Vector(0, 1, 0),
-                                     atof(attr[5].c_str())));
+                                     atof(attr[5].c_str()),
+                                     texHandle));
         }
         number--;
     }
+    fin.close();
     return true;
 }
 

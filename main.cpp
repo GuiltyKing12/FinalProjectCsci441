@@ -51,7 +51,7 @@ Planet testPlanet;
 SolarSystem solarSystem;
 
 bool fpvMode = false;
-
+bool pause = false;
 float lPosition[4] = { 0, 0, 0, 1 };
 
 string solarsystemfile = "solarsystem.txt";
@@ -159,7 +159,6 @@ void resize(int w, int h) {
 // draw the stuff in scene here, planets, etc.
 void drawScene(bool fpv) {
     glCallList(envDL);
-    testPlanet.draw();
     solarSystem.draw();
 }
 
@@ -258,7 +257,9 @@ void render() {
     }; glMatrixMode(GL_PROJECTION);
     glPopMatrix();
     
-    solarSystem.update();
+    if(!pause) {
+        solarSystem.update();
+    }
     
     glutSwapBuffers();
 }
@@ -314,6 +315,8 @@ void check_keys() {
         mainCamera.moveBackward();
         glutPostRedisplay();
     }
+    
+    if(keys['p'] || keys['P']) pause = !pause;
 }
 
 void menu_callback(int option) {
@@ -573,7 +576,6 @@ int main(int argc, char** argv) {
     mainCamera = Camera(2, 0, 0, 0, cameraRadius, cameraTheta, cameraPhi);
     skybox = new Skybox(20000);
     
-    testPlanet = Planet(100, Point(100, 200, 100), Vector(0,0, 0), 10.0);
     solarSystem = SolarSystem(solarsystemfile);
     init_scene();
     create_menu();

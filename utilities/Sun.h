@@ -20,10 +20,12 @@
 class Sun {
 public:
     Sun() {}
-    Sun(double radius, Point position, double revolution) {
+    Sun(double radius, Point position, double revolution, GLuint handle) {
         this->radius = radius;
         this->position = position;
         this->revolution = revolution;
+        sun = gluNewQuadric();
+        texHandle = handle;
     }
     ~Sun() {}
     
@@ -35,7 +37,10 @@ protected:
     double radius;
     double gravityRadius;
     
+    GLUquadric* sun;
+    GLuint texHandle;
     double revolution;
+    double currentRevolution;
     
     /*
      we might want to make this have a light source attached
