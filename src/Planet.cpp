@@ -4,9 +4,17 @@
 using namespace std;
 
 void Planet::draw() {
-    glDisable(GL_LIGHTING);
     glPushMatrix();
     {
+        GLfloat diffCol[4] = { .65, .8, .9, 1 };
+        GLfloat specCol[4] = { 1.0, 1.0, 1.0, 1 };
+        GLfloat ambCol[4] = { 1.0, 1.0, 1.0, 1 };
+        
+        glMaterialfv( GL_FRONT_AND_BACK, GL_DIFFUSE, diffCol );
+        glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR, specCol );
+        glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, 96.0 );
+        glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT, ambCol );
+        
         glTranslatef(position.getX(), position.getY(), position.getZ());
         glRotatef(-45, 1, 0, 0);
         glRotatef(currentRevolution, 0, 0, 1);
@@ -19,7 +27,6 @@ void Planet::draw() {
         glutSolidSphere(planetRadius/10, 30, 30);
     }
     glPopMatrix();
-    glEnable(GL_LIGHTING);
 }
 
 void Planet::update() {

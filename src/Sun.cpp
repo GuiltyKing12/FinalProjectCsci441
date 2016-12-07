@@ -3,6 +3,8 @@
 using namespace std;
 
 void Sun::draw() {
+    
+    glDisable(GL_LIGHTING);
     glPushMatrix();
     {
         GLfloat diffCol[4] = { .65, .8, .9, 1 };
@@ -24,6 +26,7 @@ void Sun::draw() {
         glDisable(GL_TEXTURE_2D);
     }
     glPopMatrix();
+    glEnable(GL_LIGHTING);
 }
 
 void Sun::update() {
