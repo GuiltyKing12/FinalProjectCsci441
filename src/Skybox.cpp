@@ -166,3 +166,7 @@ void Skybox::draw() {
         glDisable(GL_TEXTURE_2D);
     } glPopMatrix();
 }
+
+int Skybox::getSize() {
+    return size;
+}

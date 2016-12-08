@@ -30,6 +30,7 @@
 #include "utilities/Shader_Utils.h"
 #include "utilities/Planet.h"
 #include "utilities/SolarSystem.h"
+#include "utilities/Ship.h"
 
 using namespace std;
 
@@ -49,6 +50,7 @@ float fps;
 Skybox* skybox;
 Planet testPlanet;
 SolarSystem solarSystem;
+Ship ship;
 
 bool fpvMode = false;
 bool pause = false;
@@ -163,6 +165,7 @@ void resize(int w, int h) {
 // draw the stuff in scene here, planets, etc.
 void drawScene(bool fpv) {
     glCallList(envDL);
+    ship.draw();
     solarSystem.draw();
 }
 
@@ -218,7 +221,7 @@ void render() {
         
         // set the camera to look, if free cam we look in its direction
         // else we are in arcball looking at the current hero
-        mainCamera.look(Point(0,0,0));
+        mainCamera.look(ship.getPosition());
         glLightfv( GL_LIGHT0, GL_POSITION, lPosition );
         
         // draws main scene first time
@@ -321,6 +324,20 @@ void check_keys() {
     }
     
     if(keys['p'] || keys['P']) pause = !pause;
+    
+    if(keys['e'] || keys['E']) ship.hyperJump();
+    if(keys['w'] || keys['W']) ship.moveForward();
+    if(keys['s'] || keys['S']) ship.moveBackward();
+    if(keys['a'] || keys['A']) ship.turnright();
+    if(keys['d'] || keys['D']) ship.turnleft();
+    
+    if(!(keys['e'] || keys['E'] ||
+         keys['w'] || keys['W'] ||
+         keys['s'] || keys['S'] ||
+         keys['a'] || keys['A'] ||
+         keys['d'] || keys['D'])) ship.rest();
+    
+    ship.checkPosition(skybox->getSize());
 }
 
 void menu_callback(int option) {
@@ -347,8 +364,8 @@ void render_timer(int value) {
 
 void anim_timer(int value) {
     // Do animation stuff here
-    
-    glutTimerFunc(1000.0 / 10.0, anim_timer, 0);
+    ship.animate();
+    glutTimerFunc(1000.0 / 30.0, anim_timer, 0);
 }
 
 void split(const string &s, const char* delim, vector<string> & v){
@@ -581,6 +598,7 @@ int main(int argc, char** argv) {
     skybox = new Skybox(20000);
     
     solarSystem = SolarSystem(solarsystemfile);
+    ship = Ship(Point(6000, 0, 0), 100);
     init_scene();
     create_menu();
     printf( "[INFO]: OpenGL Scene set up\n" );

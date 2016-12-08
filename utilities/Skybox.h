@@ -23,7 +23,7 @@ public:
     }
     
     void draw();
-    
+    int getSize();
 private:
     GLuint frontSide;
     GLuint backSide;
