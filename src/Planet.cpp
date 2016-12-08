@@ -21,7 +21,7 @@ void Planet::draw() {
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, texHandle);
         gluQuadricTexture(planet,1);
-        gluSphere(planet,planetRadius,20,20);
+        gluSphere(planet,planetRadius,40,40);
         glDisable(GL_TEXTURE_2D);
         glTranslatef(planetRadius+100, 0, 0);
         glutSolidSphere(planetRadius/10, 30, 30);

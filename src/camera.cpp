@@ -86,7 +86,7 @@ void Camera::look(Point look) {
 }
 
 void Camera::fpvLook(Point heroPos, Vector heroDir, float heroHeading) {
-    Vector ortho = cross(heroDir, Vector(1, 0, 0));
+    /*Vector ortho = cross(heroDir, Vector(1, 0, 0));
     Vector u_n = heroDir / heroDir.mag();
     float c = cos(heroHeading);
     float s = sin(heroHeading);
@@ -109,5 +109,9 @@ void Camera::fpvLook(Point heroPos, Vector heroDir, float heroHeading) {
 
     gluLookAt(heroPos.getX() + u_n.getX(), heroPos.getY() + u_n.getY(), heroPos.getZ() + u_n.getZ(),
               heroPos.getX() - pt.getX(), heroPos.getY() - pt.getY() + 20, heroPos.getZ() - pt.getZ(),
+              0, 1, 0);*/
+    Point look = heroPos +  -1*heroDir;
+    gluLookAt(look.getX(), look.getY(), look.getZ(),
+              heroPos.getX(), heroPos.getY(), heroPos.getZ(),
               0, 1, 0);
 }

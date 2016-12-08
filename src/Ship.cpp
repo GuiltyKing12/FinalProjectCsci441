@@ -163,6 +163,14 @@ Point Ship::getPosition() {
     return position;
 }
 
+Vector Ship::getDirection() {
+    return direction;
+}
+
+double Ship::getHeading() {
+    return heading;
+}
+
 void Ship::setPosition(Point pos) {
     position = pos;
 }

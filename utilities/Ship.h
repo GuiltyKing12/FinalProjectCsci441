@@ -52,6 +52,8 @@ public:
     void rest();
     void notTurn();
     Point getPosition();
+    Vector getDirection();
+    double getHeading();
     void setPosition(Point pos);
     void checkPosition(int size);
     

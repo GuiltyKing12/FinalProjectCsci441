@@ -165,7 +165,7 @@ void resize(int w, int h) {
 // draw the stuff in scene here, planets, etc.
 void drawScene(bool fpv) {
     glCallList(envDL);
-    ship.draw();
+    if(!fpv) ship.draw();
     solarSystem.draw();
 }
 
@@ -187,7 +187,7 @@ void fpvLook() {
         
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
-        //fpvCamera.fpvLook();
+        fpvCamera.fpvLook(ship.getPosition(), ship.getDirection(), ship.getHeading());
         
         drawScene(true);
         glViewport(0, 0, window_width, window_height);
@@ -195,9 +195,11 @@ void fpvLook() {
 }
 
 void render() {
+    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glBindFramebuffer( GL_FRAMEBUFFER, framebufferHandle );
     glPushAttrib( GL_VIEWPORT_BIT ); {
-        glViewport(0, 0, framebufferWidth, framebufferHeight);
+        //glViewport(0, 0, framebufferWidth, framebufferHeight);
+        //scissorScene(framebufferWidth, framebufferHeight);
         /* render our scene as desired */
         /* set camera, lights, materials, draw objects, etc. */
         // make sure that OpenGL has finished rendering everything...
@@ -210,11 +212,12 @@ void render() {
         
         // we scissor and set the viewport for main scene to be whole window
         scissorScene(framebufferWidth, framebufferHeight);
+        //scissorScene(window_width, window_height);
         
         // set up the projection and modelview matrices
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        gluPerspective(45.0, (float) window_width / window_height, 0.1, 100000);
+        gluPerspective(45.0, (float) framebufferWidth / framebufferHeight, 0.1, 100000);
         
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
@@ -227,11 +230,6 @@ void render() {
         // draws main scene first time
         drawScene(false);
         
-        // if fpv camera on we then repeat above process for a second view
-        //fpvLook();
-        
-        // draws the fps to bottom left of screen
-        drawFps();
         glFlush(); glFinish();
         // and clean up. detatch the framebuffer so we render to the screen again.
         // the first pass is now inside of that texture! (fboTexHandle!)
@@ -263,6 +261,14 @@ void render() {
         glEnable( GL_LIGHTING );
     }; glMatrixMode(GL_PROJECTION);
     glPopMatrix();
+    
+    // if fpv camera on we then repeat above process for a second view
+    glPushMatrix();
+    fpvLook();
+    glPopMatrix();
+    
+    // draws the fps to bottom left of screen
+    drawFps();
     
     if(!pause) {
         solarSystem.update(ship);
@@ -552,7 +558,7 @@ int main(int argc, char** argv) {
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowPosition(100, 100);
     glutInitWindowSize(window_width, window_height);
-    glutCreateWindow("a6");
+    glutCreateWindow("SolarSystem");
     
     GLenum glewResult = glewInit();
     /* check for an error */
@@ -595,7 +601,7 @@ int main(int argc, char** argv) {
     // set camera to arcball initially
     float cameraTheta = M_PI / 3.0f;
     float cameraPhi = 2.8f;
-    float cameraRadius = 1000;
+    float cameraRadius = 300;
     mainCamera = Camera(2, 0, 0, 0, cameraRadius, cameraTheta, cameraPhi);
     skybox = new Skybox(20000);
     
