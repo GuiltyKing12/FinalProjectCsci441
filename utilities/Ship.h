@@ -39,8 +39,10 @@ public:
         right = false;
         forward = false;
         backward = false;
+        exploded = false;
     }
     void draw();
+    void update(Point campos, Point pos);
     void drawBody();
     void drawWing();
     void animate();
@@ -51,24 +53,35 @@ public:
     void turnleft();
     void rest();
     void notTurn();
+    void explode();
     Point getPosition();
     Vector getDirection();
     double getHeading();
     void setPosition(Point pos);
     void checkPosition(int size);
-    
-protected:
-    Point position;
-    Vector direction;
-    double heading;
-    double bodySize;
-    double wingAngle;
-    double thrusterAngle;
-    double shipAngle;
-    int cooldown;
+    void nearSun(bool near, double ratio);
+    void setShipShader1(GLuint handle);
+    void setExpTex(GLuint handle);
     bool jumped;
     bool left;
     bool right;
     bool forward;
     bool backward;
+    bool exploded;
+    double bodySize;
+protected:
+    GLuint shipshaderhandle1;
+    GLuint uniformRatioLoc;
+    GLuint explosionTexHandle;
+    Point position;
+    Vector direction;
+    double sunDist;
+    double heading;
+    double wingAngle;
+    double thrusterAngle;
+    double shipAngle;
+    int cooldown;
+    bool sun;
+    Point cameraPos;
+    Point pos;
 };

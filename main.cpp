@@ -72,12 +72,18 @@ Point pos;
 
 char* sunVertex = "shaders/sphereShader.v.glsl";
 char* sunFrag = "shaders/sphereShader.f.glsl";
+char* shipVertex1 = "shaders/shipShader.v.glsl";
+char* shipFrag1 = "shaders/shipShader.f.glsl";
+char* expNorm = "textures/effects/exploda.jpg";
+char* expAlp = "textures/effects/td-explosion1alpha.jpg";
 
 GLuint sunShaderHandle;
+GLuint shipShaderHandle1;
 GLuint framebufferHandle;
 GLuint renderbufferHandle;
 GLuint framebufferWidth = 1024, framebufferHeight = 1024; // set these to the desired size
 GLuint fboTexHandle;
+GLuint exptexhandle = 0;
 
 // calculates and then displays the fps to the screen
 void calculateFPS() {
@@ -165,8 +171,8 @@ void resize(int w, int h) {
 // draw the stuff in scene here, planets, etc.
 void drawScene(bool fpv) {
     glCallList(envDL);
-    if(!fpv) ship.draw();
     solarSystem.draw();
+    if(!fpv) ship.draw();
 }
 
 void scissorScene(size_t w, size_t h) {
@@ -222,6 +228,11 @@ void render() {
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
         
+        if(mainCamera.mode == 1) cameraXYZ = mainCamera.position;
+        else cameraXYZ = mainCamera.arcPosition;
+        if(mainCamera.mode == 1) pos = mainCamera.position + mainCamera.camDir;
+        else pos = ship.getPosition();
+        
         // set the camera to look, if free cam we look in its direction
         // else we are in arcball looking at the current hero
         mainCamera.look(ship.getPosition());
@@ -273,6 +284,7 @@ void render() {
     if(!pause) {
         solarSystem.update(ship);
     }
+    ship.update(cameraXYZ, pos);
     
     glutSwapBuffers();
 }
@@ -331,11 +343,13 @@ void check_keys() {
     
     if(keys['p'] || keys['P']) pause = !pause;
     
-    if(keys['e'] || keys['E']) ship.hyperJump();
-    if(keys['w'] || keys['W']) ship.moveForward();
-    if(keys['s'] || keys['S']) ship.moveBackward();
-    if(keys['a'] || keys['A']) ship.turnright();
-    if(keys['d'] || keys['D']) ship.turnleft();
+    if(!ship.exploded) {
+        if(keys['e'] || keys['E']) ship.hyperJump();
+        if(keys['w'] || keys['W']) ship.moveForward();
+        if(keys['s'] || keys['S']) ship.moveBackward();
+        if(keys['a'] || keys['A']) ship.turnright();
+        if(keys['d'] || keys['D']) ship.turnleft();
+    }
     
     if(!(keys['e'] || keys['E'] ||
          keys['w'] || keys['W'] ||
@@ -344,6 +358,11 @@ void check_keys() {
     
     if(!(keys['a'] || keys['A'] ||
          keys['d'] || keys['D'])) ship.notTurn();
+    
+    if(ship.exploded && keys['r'] || keys['R']) {
+        ship.exploded = false;
+        ship.setPosition(Point(6000, 0, 0));
+    }
     
     ship.checkPosition(skybox->getSize());
 }
@@ -605,15 +624,29 @@ int main(int argc, char** argv) {
     mainCamera = Camera(2, 0, 0, 0, cameraRadius, cameraTheta, cameraPhi);
     skybox = new Skybox(20000);
     
+    loadParticle(expNorm, expAlp, exptexhandle);
+    
+    /*exptexhandle = SOIL_load_OGL_texture(
+                                         "textures/effects/exploda.png",
+                                         SOIL_LOAD_AUTO,
+                                         SOIL_CREATE_NEW_ID,
+                                         SOIL_FLAG_MIPMAPS
+                                         | SOIL_FLAG_INVERT_Y
+                                         | SOIL_FLAG_COMPRESS_TO_DXT
+                                         );*/
+    cout << exptexhandle << endl;
     solarSystem = SolarSystem(solarsystemfile);
     ship = Ship(Point(6000, 0, 0), 1);
+    ship.setExpTex(exptexhandle);
     init_scene();
     create_menu();
     printf( "[INFO]: OpenGL Scene set up\n" );
     
     // set up our shaders (the files are hardcoded in)
     setupParticleShaders(sunVertex, sunFrag, sunShaderHandle);
-    solarSystem.setShader(sunShaderHandle);
+    setupParticleShaders(shipVertex1, shipFrag1, shipShaderHandle1);
+    solarSystem.setSunShader(sunShaderHandle);
+    ship.setShipShader1(shipShaderHandle1);
     printf( "[INFO]: Shader compilation complete.\n" );
     
     // register callbacks

@@ -19,18 +19,29 @@ void SolarSystem::draw() {
 
 void SolarSystem::update(Ship &ship) {
     sun.update();
-    if((ship.getPosition() - sun.getPosition()).mag() <= sun.getRadius()) {
+    double distance = (ship.getPosition() - sun.getPosition()).mag() - sun.getRadius();
+    
+    if(distance <= sun.getRadius() * 2) {
         // do some death animation
+        double ratio = distance / (sun.getRadius() * 2);
+        ship.nearSun(true, ratio);
+        
+        if(ratio < .1) {
+            ship.exploded = true;
+        }
     }
+    else ship.nearSun(false, 0.0);
     for(int i = 0; i < planets.size(); i++) {
         planets[i].update();
-        if((planets[i].getPosition() - ship.getPosition()).mag() <= planets[i].getRadius()) {
-            // do some death animation
+        distance = (planets[i].getPosition() - ship.getPosition()).mag() - planets[i].getRadius();
+        if(distance <= planets[i].getRadius()+ship.bodySize*5) {
+           double ratio = distance / (planets[i].getRadius()+ship.bodySize*5);
+            if(ratio < .1) ship.exploded = true;
         }
     }
 }
 
-void SolarSystem::setShader(GLuint handle) {
+void SolarSystem::setSunShader(GLuint handle) {
     sunshaderhandle = handle;
     uniformTimeLoc = glGetUniformLocation(sunshaderhandle, "time");
     uniformDistortLoc = glGetUniformLocation(sunshaderhandle, "distort");

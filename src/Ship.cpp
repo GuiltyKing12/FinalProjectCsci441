@@ -9,19 +9,26 @@ void Ship::draw() {
         glTranslatef(position.getX(),
                      position.getY(),
                      position.getZ());
-        glRotatef(heading, 0, 1, 0);
-        glRotatef(shipAngle, 0, 0, 1);
-        drawBody();
-        double currentAngle = wingAngle;
-        for(int i = 0; i < 5; i++) {
-            glPushMatrix();
-            {
-                glRotatef(currentAngle, 0, 0, 1);
-                glTranslatef(bodySize*2, 0, 0);
-                drawWing();
+        if(exploded) explode();
+        else {
+            if(sun) {
+                glUseProgram(shipshaderhandle1);
+                glUniform1f(uniformRatioLoc, sunDist);
             }
-            glPopMatrix();
-            currentAngle += 360/5;
+            glRotatef(heading, 0, 1, 0);
+            glRotatef(shipAngle, 0, 0, 1);
+            drawBody();
+            double currentAngle = wingAngle;
+            for(int i = 0; i < 5; i++) {
+                glPushMatrix();
+                {
+                    glRotatef(currentAngle, 0, 0, 1);
+                    glTranslatef(bodySize*2, 0, 0);
+                    drawWing();
+                }
+                glPopMatrix();
+                currentAngle += 360/5;
+            }
         }
     }
     glPopMatrix();
@@ -57,6 +64,7 @@ void Ship::drawBody() {
                 glRotatef(thrusterAngle, 1, 0, 0);
                 glutSolidCube(bodySize);
             }
+            if(sun) glUseProgram(0);
             glPopMatrix();
             glTranslatef(0, 0, -bodySize);
             glPushMatrix();
@@ -87,6 +95,52 @@ void Ship::drawWing() {
         glutSolidCone(bodySize/2, bodySize, 30, 30);
     }
     glPopMatrix();
+}
+
+void Ship::update(Point camPos, Point pos) {
+    cameraPos = camPos;
+    this->pos = pos;
+}
+
+void Ship::explode() {
+    glDisable(GL_LIGHTING);
+    glPushMatrix();
+    {
+        Vector view = (pos - cameraPos);
+        
+        //view.setY(0);
+        view.normalize();
+        Vector rainDir = Vector(0.0, 0.0, 1.0);
+        
+        double angle = acos(dot(rainDir, view) / (rainDir.mag() * view.mag())) * 180 / M_PI;
+        Vector axis = cross(rainDir, view);
+        axis.normalize();
+        glRotatef(angle, axis.getX(), axis.getY(), axis.getZ());
+        
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, explosionTexHandle);
+        glBegin(GL_QUADS); {
+            glNormal3f( 0, 0, 1 );
+            glTexCoord2f( 0, 0.01 );
+            glVertex3f(-bodySize*10, bodySize*10, 0);
+            
+            glNormal3f( 0, 0, 1 );
+            glTexCoord2f( 0, 1 );
+            glVertex3f(-bodySize*10, -bodySize*10, 0);
+            
+            glNormal3f( 0, 0, 1 );
+            glTexCoord2f( 1, 1 );
+            glVertex3f(bodySize*10, -bodySize*10, 0);
+            
+            glNormal3f( 0, 0, 1 );
+            glTexCoord2f( 1, 0.01 );
+            glVertex3f(bodySize*10, bodySize*10, 0);
+        } glEnd();
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glDisable(GL_TEXTURE_2D);
+    }
+    glPopMatrix();
+    glEnable(GL_LIGHTING);
 }
 
 void Ship::animate() {
@@ -157,6 +211,20 @@ void Ship::notTurn() {
     right = false;
     if(shipAngle < 0) shipAngle++;
     else if(shipAngle > 0) shipAngle--;
+}
+
+void Ship::nearSun(bool near, double ratio) {
+    sun = near;
+    sunDist = ratio;
+}
+
+void Ship::setShipShader1(GLuint handle) {
+    shipshaderhandle1 = handle;
+    uniformRatioLoc = glGetUniformLocation(shipshaderhandle1, "ratio");
+}
+
+void Ship::setExpTex(GLuint handle) {
+    explosionTexHandle = handle;
 }
 
 Point Ship::getPosition() {

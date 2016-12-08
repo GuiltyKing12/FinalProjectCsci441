@@ -29,7 +29,8 @@ public:
     
     void draw();
     void update(Ship &ship);
-    void setShader(GLuint handle);
+    void setSunShader(GLuint handle);
+    
 protected:
     Sun sun;
     std::vector<Planet> planets;
