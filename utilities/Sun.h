@@ -32,6 +32,8 @@ public:
     
     void draw();
     void update();
+    Point getPosition();
+    double getRadius();
 protected:
     Point position;
     

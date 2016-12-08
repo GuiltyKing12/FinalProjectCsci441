@@ -17,10 +17,16 @@ void SolarSystem::draw() {
     }
 }
 
-void SolarSystem::update() {
+void SolarSystem::update(Ship &ship) {
     sun.update();
+    if((ship.getPosition() - sun.getPosition()).mag() <= sun.getRadius()) {
+        // do some death animation
+    }
     for(int i = 0; i < planets.size(); i++) {
         planets[i].update();
+        if((planets[i].getPosition() - ship.getPosition()).mag() <= planets[i].getRadius()) {
+            // do some death animation
+        }
     }
 }
 

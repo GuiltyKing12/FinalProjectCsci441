@@ -42,6 +42,8 @@ public:
     
     void draw();
     void update();
+    Point getPosition();
+    double getRadius();
 protected:
     // Need to draw and move
     Point position;

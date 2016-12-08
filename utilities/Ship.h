@@ -30,10 +30,13 @@ public:
         position = pos;
         bodySize = size;
         wingAngle = 0;
+        shipAngle = 0;
         thrusterAngle = -90;
         direction = Vector(0, 0, 1);
         cooldown = 100;
         jumped = false;
+        left = false;
+        right = false;
         forward = false;
         backward = false;
     }
@@ -47,6 +50,7 @@ public:
     void turnright();
     void turnleft();
     void rest();
+    void notTurn();
     Point getPosition();
     void setPosition(Point pos);
     void checkPosition(int size);
@@ -58,8 +62,11 @@ protected:
     double bodySize;
     double wingAngle;
     double thrusterAngle;
+    double shipAngle;
     int cooldown;
     bool jumped;
+    bool left;
+    bool right;
     bool forward;
     bool backward;
 };

@@ -30,6 +30,14 @@ void Planet::draw() {
     
 }
 
+Point Planet::getPosition() {
+    return position;
+}
+
+double Planet::getRadius() {
+    return planetRadius;
+}
+
 void Planet::update() {
     currentRevolution += revolution;
     if(currentRevolution > 360) currentRevolution = currentRevolution - 360;

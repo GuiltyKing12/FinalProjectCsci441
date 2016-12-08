@@ -265,7 +265,7 @@ void render() {
     glPopMatrix();
     
     if(!pause) {
-        solarSystem.update();
+        solarSystem.update(ship);
     }
     
     glutSwapBuffers();
@@ -336,6 +336,9 @@ void check_keys() {
          keys['s'] || keys['S'] ||
          keys['a'] || keys['A'] ||
          keys['d'] || keys['D'])) ship.rest();
+    
+    if(!(keys['a'] || keys['A'] ||
+         keys['d'] || keys['D'])) ship.notTurn();
     
     ship.checkPosition(skybox->getSize());
 }
@@ -593,12 +596,12 @@ int main(int argc, char** argv) {
     // set camera to arcball initially
     float cameraTheta = M_PI / 3.0f;
     float cameraPhi = 2.8f;
-    float cameraRadius = 6000;
+    float cameraRadius = 1000;
     mainCamera = Camera(2, 0, 0, 0, cameraRadius, cameraTheta, cameraPhi);
     skybox = new Skybox(20000);
     
     solarSystem = SolarSystem(solarsystemfile);
-    ship = Ship(Point(6000, 0, 0), 100);
+    ship = Ship(Point(6000, 0, 0), 10);
     init_scene();
     create_menu();
     printf( "[INFO]: OpenGL Scene set up\n" );

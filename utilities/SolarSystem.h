@@ -10,6 +10,7 @@
 #include "Sun.h"
 #include "Point.h"
 #include "Vector.h"
+#include "Ship.h"
 
 class SolarSystem {
 public:
@@ -27,7 +28,7 @@ public:
     ~SolarSystem() {}
     
     void draw();
-    void update();
+    void update(Ship &ship);
     void setShader(GLuint handle);
 protected:
     Sun sun;

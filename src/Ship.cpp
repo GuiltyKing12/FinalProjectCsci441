@@ -10,6 +10,7 @@ void Ship::draw() {
                      position.getY(),
                      position.getZ());
         glRotatef(heading, 0, 1, 0);
+        glRotatef(shipAngle, 0, 0, 1);
         drawBody();
         double currentAngle = wingAngle;
         for(int i = 0; i < 5; i++) {
@@ -56,13 +57,13 @@ void Ship::drawBody() {
         }
         glPopMatrix();
         
-        if(forward) glTranslatef(0, 0, -bodySize);
+        if(forward || left || right) glTranslatef(0, 0, -bodySize);
         else if(backward) glTranslatef(0, 0, bodySize);
         glPushMatrix();
         {
             glDisable(GL_LIGHTING);
-            if(forward || backward) {
-                if(forward) glRotatef(180, 1, 0, 0);
+            if(forward || backward || left || right) {
+                if(forward || left || right) glRotatef(180, 1, 0, 0);
                 
                 glScalef(1, .5, 2);
                 glutSolidCone(bodySize/2, bodySize, 30, 30);
@@ -124,6 +125,9 @@ void Ship::turnright() {
     direction = Vector(sin(heading * M_PI / 180),
                        0.0,
                        cos(heading * M_PI / 180));
+    right = true;
+    shipAngle = -45;
+    thrusterAngle = 0;
 }
 
 void Ship::turnleft() {
@@ -132,12 +136,21 @@ void Ship::turnleft() {
     direction = Vector(sin(heading * M_PI / 180),
                        0.0,
                        cos(heading * M_PI / 180));
+    left = true;
+    shipAngle = 45;
+    thrusterAngle = 0;
 }
 
 void Ship::rest() {
     backward = false;
     forward = false;
     thrusterAngle = -90;
+}
+
+void Ship::notTurn() {
+    left = false;
+    right = false;
+    shipAngle = 0;
 }
 
 Point Ship::getPosition() {

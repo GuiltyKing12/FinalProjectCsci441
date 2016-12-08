@@ -34,3 +34,11 @@ void Sun::update() {
     currentRevolution += revolution;
     if(currentRevolution > 360) currentRevolution -= 360;
 }
+
+Point Sun::getPosition() {
+    return position;
+}
+
+double Sun::getRadius() {
+    return radius;
+}
