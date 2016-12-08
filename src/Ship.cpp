@@ -48,29 +48,31 @@ void Ship::drawBody() {
         glPushMatrix();
         {
             glRotatef(thrusterAngle, 1, 0, 0);
-            glScalef(1, .5, 2);
-            glutSolidCube(bodySize);
-            glRotatef(-thrusterAngle, 1, 0, 0);
-            glTranslatef(-bodySize*2, 0, 0);
-            glRotatef(thrusterAngle, 1, 0, 0);
-            glutSolidCube(bodySize);
-        }
-        glPopMatrix();
-        
-        if(forward || left || right) glTranslatef(0, 0, -bodySize);
-        else if(backward) glTranslatef(0, 0, bodySize);
-        glPushMatrix();
-        {
-            glDisable(GL_LIGHTING);
-            if(forward || backward || left || right) {
-                if(forward || left || right) glRotatef(180, 1, 0, 0);
-                
+            glPushMatrix();
+            {
                 glScalef(1, .5, 2);
-                glutSolidCone(bodySize/2, bodySize, 30, 30);
+                glutSolidCube(bodySize);
+                glRotatef(-thrusterAngle, 1, 0, 0);
                 glTranslatef(-bodySize*2, 0, 0);
-                glutSolidCone(bodySize/2, bodySize, 30, 30);
+                glRotatef(thrusterAngle, 1, 0, 0);
+                glutSolidCube(bodySize);
             }
-            glEnable(GL_LIGHTING);
+            glPopMatrix();
+            glTranslatef(0, 0, -bodySize);
+            glPushMatrix();
+            {
+                glDisable(GL_LIGHTING);
+                if(forward || backward || left || right) {
+                    glRotatef(180, 1, 0, 0);
+                    
+                    glScalef(1, .5, 2);
+                    glutSolidCone(bodySize/2, bodySize, 30, 30);
+                    glTranslatef(-bodySize*2, 0, 0);
+                    glutSolidCone(bodySize/2, bodySize, 30, 30);
+                }
+                glEnable(GL_LIGHTING);
+            }
+            glPopMatrix();
         }
         glPopMatrix();
     }
@@ -110,47 +112,51 @@ void Ship::hyperJump() {
 void Ship::moveForward() {
     position += 20*direction;
     forward = true;
-    thrusterAngle = 0;
+    if(thrusterAngle != 0) thrusterAngle++;
 }
 
 void Ship::moveBackward() {
     position -= 20*direction;
     backward = true;
-    thrusterAngle = -180;
+    if(thrusterAngle != -180) thrusterAngle--;
 }
 
 void Ship::turnright() {
     if(heading == 360) heading = 0;
-    heading += 2;
+    heading++;
     direction = Vector(sin(heading * M_PI / 180),
                        0.0,
                        cos(heading * M_PI / 180));
     right = true;
-    shipAngle = -45;
-    thrusterAngle = 0;
+    if(shipAngle != -45) shipAngle--;
+    if(thrusterAngle != 0 && forward) thrusterAngle++;
+    else if(thrusterAngle != -180 && backward) thrusterAngle--;
 }
 
 void Ship::turnleft() {
     if(heading == 0) heading = 360;
-    heading -= 2;
+    heading--;
     direction = Vector(sin(heading * M_PI / 180),
                        0.0,
                        cos(heading * M_PI / 180));
     left = true;
-    shipAngle = 45;
-    thrusterAngle = 0;
+    if(shipAngle != 45) shipAngle++;
+    if(thrusterAngle != 0 && forward) thrusterAngle++;
+    else if(thrusterAngle != -180 && backward) thrusterAngle--;
 }
 
 void Ship::rest() {
     backward = false;
     forward = false;
-    thrusterAngle = -90;
+    if(thrusterAngle < -90) thrusterAngle++;
+    else if(thrusterAngle > -90) thrusterAngle--;
 }
 
 void Ship::notTurn() {
     left = false;
     right = false;
-    shipAngle = 0;
+    if(shipAngle < 0) shipAngle++;
+    else if(shipAngle > 0) shipAngle--;
 }
 
 Point Ship::getPosition() {

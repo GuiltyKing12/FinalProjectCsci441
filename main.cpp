@@ -333,9 +333,8 @@ void check_keys() {
     
     if(!(keys['e'] || keys['E'] ||
          keys['w'] || keys['W'] ||
-         keys['s'] || keys['S'] ||
-         keys['a'] || keys['A'] ||
-         keys['d'] || keys['D'])) ship.rest();
+         keys['s'] || keys['S']
+         )) ship.rest();
     
     if(!(keys['a'] || keys['A'] ||
          keys['d'] || keys['D'])) ship.notTurn();
@@ -601,7 +600,7 @@ int main(int argc, char** argv) {
     skybox = new Skybox(20000);
     
     solarSystem = SolarSystem(solarsystemfile);
-    ship = Ship(Point(6000, 0, 0), 10);
+    ship = Ship(Point(6000, 0, 0), 1);
     init_scene();
     create_menu();
     printf( "[INFO]: OpenGL Scene set up\n" );
