@@ -21,8 +21,9 @@ void Sun::draw() {
         
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, texHandle);
+        glRotatef(currentRevolution, 0, 1, 0);
         gluQuadricTexture(sun,1);
-        gluSphere(sun,radius,20,20);
+        gluSphere(sun,radius,40,40);
         glDisable(GL_TEXTURE_2D);
     }
     glPopMatrix();
@@ -30,5 +31,6 @@ void Sun::draw() {
 }
 
 void Sun::update() {
-    
+    currentRevolution += revolution;
+    if(currentRevolution > 360) currentRevolution -= 360;
 }

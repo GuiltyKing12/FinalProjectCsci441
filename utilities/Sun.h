@@ -24,6 +24,7 @@ public:
         this->radius = radius;
         this->position = position;
         this->revolution = revolution;
+        currentRevolution = 0;
         sun = gluNewQuadric();
         texHandle = handle;
     }

@@ -4,6 +4,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <stdlib.h>
 
 #include "Planet.h"
 #include "Sun.h"
@@ -20,13 +21,14 @@ public:
         else {
             fprintf(stdout, "Failed to load solarsystem file: %s\n", inputfile.c_str());
         }
+        srand(time(NULL));
     }
     
     ~SolarSystem() {}
     
     void draw();
     void update();
-    
+    void setShader(GLuint handle);
 protected:
     Sun sun;
     std::vector<Planet> planets;
@@ -35,4 +37,7 @@ protected:
     bool readfile(std::string inputfile);
     bool pause;
     bool gravity;
+    GLuint sunshaderhandle;
+    GLuint uniformTimeLoc = 0;
+    GLuint uniformDistortLoc = 0;
 };

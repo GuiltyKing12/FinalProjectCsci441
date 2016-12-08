@@ -68,6 +68,10 @@ Vector up(0, 1, 0);
 Point cameraXYZ;
 Point pos;
 
+char* sunVertex = "shaders/sphereShader.v.glsl";
+char* sunFrag = "shaders/sphereShader.f.glsl";
+
+GLuint sunShaderHandle;
 GLuint framebufferHandle;
 GLuint renderbufferHandle;
 GLuint framebufferWidth = 1024, framebufferHeight = 1024; // set these to the desired size
@@ -372,7 +376,7 @@ void create_menu() {
     glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
-void setupParticleShaders(char* vertexShader, char* fragmentShader, GLint &shaderProgramHandle) {
+void setupParticleShaders(char* vertexShader, char* fragmentShader, GLuint &shaderProgramHandle) {
     shaderProgramHandle = createShaderProgram(vertexShader, fragmentShader);
 }
 
@@ -582,7 +586,8 @@ int main(int argc, char** argv) {
     printf( "[INFO]: OpenGL Scene set up\n" );
     
     // set up our shaders (the files are hardcoded in)
-    
+    setupParticleShaders(sunVertex, sunFrag, sunShaderHandle);
+    solarSystem.setShader(sunShaderHandle);
     printf( "[INFO]: Shader compilation complete.\n" );
     
     // register callbacks

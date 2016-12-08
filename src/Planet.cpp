@@ -27,6 +27,7 @@ void Planet::draw() {
         glutSolidSphere(planetRadius/10, 30, 30);
     }
     glPopMatrix();
+    
 }
 
 void Planet::update() {

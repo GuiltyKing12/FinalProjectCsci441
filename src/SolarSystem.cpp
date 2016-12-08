@@ -1,9 +1,17 @@
 #include "SolarSystem.h"
 #include <iostream>
+
 using namespace std;
 
 void SolarSystem::draw() {
+    glUseProgram(sunshaderhandle);
+    float time = glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
+    float dis = rand()%100+1;
+    glUniform1f(uniformTimeLoc, time);
+    if(dis) glUniform1i(uniformDistortLoc, 1);
+    else glUniform1i(uniformDistortLoc, 0);
     sun.draw();
+    glUseProgram(0);
     for(int i = 0; i < planets.size(); i++) {
         planets[i].draw();
     }
@@ -16,7 +24,10 @@ void SolarSystem::update() {
     }
 }
 
-void SolarSystem::create() {
+void SolarSystem::setShader(GLuint handle) {
+    sunshaderhandle = handle;
+    uniformTimeLoc = glGetUniformLocation(sunshaderhandle, "time");
+    uniformDistortLoc = glGetUniformLocation(sunshaderhandle, "distort");
 }
 
 bool SolarSystem::readfile(string inputfile) {
