@@ -67,7 +67,7 @@ ifeq ($(BUILDING_IN_LAB), 1)
 else
 	CXX = g++
 endif
-CXX    = g++
+
 CFLAGS = -Wall -g -std=c++11
 
 INCPATH += -I./utilities
