@@ -12,8 +12,11 @@ void Rain::draw(Point camera, Point pos) {
 	
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, handle);
+	glUseProgram(shaderHandle);
     for(int i = 0; i < particles.size(); i++) {
         glPushMatrix(); {
+			glUniform1f(uniformMaxLifeLoc, particles[i].getMaxLife());
+			glUniform1f(uniformLifeLoc, particles[i].getCurrentLife());
             Vector view = (this->pos - cameraXYZ);
             
             //view.setY(0);
@@ -30,6 +33,7 @@ void Rain::draw(Point camera, Point pos) {
             particles[i].draw();
         } glPopMatrix();
     }
+	glUseProgram(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glDisable(GL_TEXTURE_2D);
 }

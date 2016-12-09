@@ -91,11 +91,11 @@ void Ship::drawBody() {
 					glPopMatrix();
 					glPushMatrix();
 						doSort();
-						if(thrusterAngle == 0 || thrusterAngle == -180) {
+						if(thrusterAngle == 0 || thrusterAngle == -180 && forward) {
 							glScalef(bodySize/10, bodySize/10, bodySize/10);
-							
 							thrusterEffects.draw(cameraPos, pos);
 							thrusterEffects.update();
+							glUseProgram(0);
 						}
 					glPopMatrix();
 				
@@ -245,10 +245,10 @@ void Ship::setShipShader1(GLuint handle) {
     uniformRatioLoc = glGetUniformLocation(shipshaderhandle1, "ratio");
 }
 
-void Ship::setThrusterShader(GLuint handle) {
+void Ship::setThrusterShader(GLuint handle, GLuint shaderHandle) {
 	Point thruster(0.0, 0.0, -bodySize*5-bodySize);
 	
-	thrusterEffects = Rain(thruster, bodySize*100, 1, .002, .05, 3, 14, "R", 10, 50, handle);
+	thrusterEffects = Rain(thruster, bodySize*100, 1, .002, .05, 5, 35, "R", 10, 100, handle, shaderHandle);
 }
 
 void Ship::setExpTex(GLuint handle) {
@@ -284,8 +284,9 @@ bool Ship::sortByDot(Particle &lhs, Particle &rhs) {
 	viewPath.normalize();
 	Vector lh = cameraPos - lhs.getPoint();
 	Vector rh = cameraPos - rhs.getPoint();
+	
 	if(direction.getZ() > 0) {
 		return dot(lh, viewPath) < dot(rh, viewPath);
 	}
-	else return dot(lh, viewPath) < dot(rh, viewPath);
+	else return dot(lh, viewPath) > dot(rh, viewPath);
 }

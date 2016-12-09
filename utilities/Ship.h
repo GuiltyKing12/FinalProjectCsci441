@@ -75,7 +75,7 @@ public:
     void checkPosition(int size);
     void nearSun(bool isNear, double ratio);
     void setShipShader1(GLuint handle);
-	void setThrusterShader(GLuint handle);
+	void setThrusterShader(GLuint handle, GLuint shaderHandle);
     void setExpTex(GLuint handle);
     bool jumped;
     bool initialjump;
@@ -88,6 +88,7 @@ public:
     double sunDist;
 protected:
     GLuint shipshaderhandle1;
+	GLuint starshaderhandle;
     GLuint uniformRatioLoc;
     GLuint explosionTexHandle;
     Point position;

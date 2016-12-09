@@ -76,6 +76,8 @@ char* shipVertex1 = "shaders/shipShader.v.glsl";
 char* shipFrag1 = "shaders/shipShader.f.glsl";
 char* fboVertex = "shaders/fboShader.v.glsl";
 char* fboFrag = "shaders/fboShader.f.glsl";
+char* starVertex = "shaders/starShader.v.glsl";
+char* starFrag = "shaders/starShader.f.glsl";
 char* expNorm = "textures/effects/exploda.jpg";
 char* expAlp = "textures/effects/td-explosion1alpha.jpg";
 char* starNorm = "textures/effects/starnorm.jpg";
@@ -662,10 +664,12 @@ int main(int argc, char** argv) {
     setupParticleShaders(shipVertex1, shipFrag1, shipShaderHandle1);
     setupParticleShaders(fboVertex, fboFrag, fboShaderHandle);
     uniformRatioLoc = glGetUniformLocation(fboShaderHandle, "ratio");
+	GLuint starShaderHandle = 0;
+	setupParticleShaders(starVertex, starFrag, starShaderHandle);
     
     solarSystem.setSunShader(sunShaderHandle);
     ship.setShipShader1(shipShaderHandle1);
-	ship.setThrusterShader(starTexHandle);
+	ship.setThrusterShader(starTexHandle, starShaderHandle);
     printf( "[INFO]: Shader compilation complete.\n" );
     
     // register callbacks
