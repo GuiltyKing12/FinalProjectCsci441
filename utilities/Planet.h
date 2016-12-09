@@ -36,6 +36,20 @@ public:
         currentRevolution = 0;
         planet = gluNewQuadric();
         texHandle = handle;
+        ringPlanet = false;
+    }
+    
+    Planet(double radius, Point pos, Vector dir, double revolution, GLuint handle, GLuint handle2, double ringRadius) {
+        planetRadius = radius;
+        position = pos;
+        direction = dir;
+        this->revolution = revolution;
+        currentRevolution = 0;
+        planet = gluNewQuadric();
+        texHandle = handle;
+        ringHandle = handle2;
+        this->ringRadius = ringRadius;
+        ringPlanet = true;
     }
     
     ~Planet() {}
@@ -43,7 +57,9 @@ public:
     void draw();
     void update();
     Point getPosition();
+    void drawRing( double inner, double outer, unsigned int pts );
     double getRadius();
+    bool ringPlanet;
 protected:
     // Need to draw and move
     Point position;
@@ -51,11 +67,13 @@ protected:
     
     GLUquadric* planet;
     GLuint texHandle;
+    GLuint ringHandle;
     double revolution;
     double currentRevolution;
     
     // Extra stuff
     double planetRadius;
+    double ringRadius;
     double gravityRadius;
     
     int t; // if we decide to use bezier curve

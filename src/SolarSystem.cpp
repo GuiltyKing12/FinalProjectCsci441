@@ -105,12 +105,33 @@ bool SolarSystem::readfile(string inputfile) {
             
             cout << image << endl;
             cout << texHandle << endl;
-            
+            if(atoi(attr[7].c_str()) == 1) {
+                image = "textures/planets/" + attr[8].substr(1);
+                GLuint texHandle2 = SOIL_load_OGL_texture(
+                                                         image.c_str(),
+                                                         SOIL_LOAD_AUTO,
+                                                         SOIL_CREATE_NEW_ID,
+                                                         SOIL_FLAG_MIPMAPS
+                                                         | SOIL_FLAG_INVERT_Y
+                                                         | SOIL_FLAG_COMPRESS_TO_DXT
+                                                         );
+                cout << image << endl;
+                cout << texHandle2 << endl;
+                planets.push_back(Planet(atof(attr[1].c_str()),
+                                         planpos,
+                                         Vector(0, 1, 0),
+                                         atof(attr[5].c_str()),
+                                         texHandle,
+                                         texHandle2,
+                                         atof(attr[9].c_str())));
+            }
+            else {
             planets.push_back(Planet(atof(attr[1].c_str()),
                                      planpos,
                                      Vector(0, 1, 0),
                                      atof(attr[5].c_str()),
                                      texHandle));
+            }
         }
         number--;
     }

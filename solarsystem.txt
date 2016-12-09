@@ -5,6 +5,6 @@ P, 26, 0, 0, 2500, 20, venusmap.jpg, 0
 P, 27.4, 0, 0, 3500, 20, earthmap1k.jpg, 0
 P, 14.5, 0, 0, 4200, 20, mars_1k_color.jpg, 0
 P, 308.1, 0, 0, 5000, .05, jupitermap.jpg, 0
-P, 250.9, 0, 0, 5600, 20, saturnmap.jpg, 1, saturnringcolor.jpg
+P, 250.9, 0, 0, 5600, 20, saturnmap.jpg, 1, saturnringcolor.jpg, 350
 P, 101.1, 0, 0, 6000, 20, uranusmap.jpg, 0
 P, 97.9, 0, 0, 6500, 20, neptunemap.jpg, 0
