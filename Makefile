@@ -26,7 +26,7 @@ SOURCES = $(wildcard *.cpp)
 SOURCES += $(wildcard src/*.cpp)
 OBJECTS = $(SOURCES:.cpp=.o)
 
-COMP = 0
+COMP = -1
 
 LOCAL_INC_PATH = /opt/local/include
 LOCAL_LIB_PATH = /opt/local/lib
@@ -39,7 +39,7 @@ else ifeq ($(COMP), 1)
 else ifeq ($(COMP), 2)
 endif
 
-BUILDING_IN_LAB = 0
+BUILDING_IN_LAB = 1
 
 USING_GLEW = 1
 USING_GLUI = 0

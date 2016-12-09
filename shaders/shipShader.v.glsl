@@ -11,6 +11,9 @@ uniform int distort;
 uniform float time;
 uniform float ratio;
 
+varying vec3 N;
+varying vec3 v;
+
 void main() {
     /*****************************************/
     /********* Vertex Calculations  **********/
@@ -18,6 +21,7 @@ void main() {
     vec4 Vertex_new = gl_Vertex;
     if(1-ratio > .88) Vertex_new = gl_Vertex + (1-ratio);
     // TODO #14: modify our vertex in object space
-    gl_Position = gl_ModelViewProjectionMatrix * Vertex_new;
-    gl_TexCoord[0] = gl_MultiTexCoord0;
+    v = vec3(gl_ModelViewMatrix * gl_Vertex);       
+   N = normalize(gl_NormalMatrix * gl_Normal);
+   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex; 
 }
