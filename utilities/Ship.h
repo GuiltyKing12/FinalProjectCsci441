@@ -60,7 +60,7 @@ public:
     double getHeading();
     void setPosition(Point pos);
     void checkPosition(int size);
-    void nearSun(bool near, double ratio);
+    void nearSun(bool isNear, double ratio);
     void setShipShader1(GLuint handle);
     void setExpTex(GLuint handle);
     bool jumped;

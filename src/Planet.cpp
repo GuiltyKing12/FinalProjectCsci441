@@ -28,7 +28,9 @@ void Planet::draw() {
         glPushMatrix();
         {
             if(ringPlanet) {
+                glBindTexture(GL_TEXTURE_2D, ringHandle);
                 drawRing(ringRadius, ringRadius+100, 100);
+                glBindTexture(GL_TEXTURE_2D, 0);
             }
         }
         glPopMatrix();
@@ -59,6 +61,7 @@ void Planet::drawRing( double inner, double outer, unsigned int pts )
     for( unsigned int i = 0; i <= pts; ++i )
     {
         float angle = ( i / (float)pts ) * 3.14159f * 2.0f;
+        
         glVertex2f( inner * cos( angle ), inner * sin( angle ) );
         glVertex2f( outer * cos( angle ), outer * sin( angle ) );
     }

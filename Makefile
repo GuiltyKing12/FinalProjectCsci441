@@ -62,7 +62,11 @@ USING_SOIL = 1
 #############################
 ## COMPILING INFO
 #############################
-
+ifeq ($(BUILDING_IN_LAB), 1)
+	CXX = C:/Strawberry/c/bin/g++.exe
+else
+	CXX = g++
+endif
 CXX    = g++
 CFLAGS = -Wall -g -std=c++11
 
