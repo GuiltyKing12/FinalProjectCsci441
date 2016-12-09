@@ -213,8 +213,8 @@ void Ship::notTurn() {
     else if(shipAngle > 0) shipAngle--;
 }
 
-void Ship::nearSun(bool near, double ratio) {
-    sun = near;
+void Ship::nearSun(bool isNear, double ratio) {
+    sun = isNear;
     sunDist = ratio;
 }
 

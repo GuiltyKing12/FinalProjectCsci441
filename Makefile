@@ -39,7 +39,7 @@ else ifeq ($(COMP), 1)
 else ifeq ($(COMP), 2)
 endif
 
-BUILDING_IN_LAB = 0
+BUILDING_IN_LAB = 1
 
 USING_GLEW = 1
 USING_GLUI = 0
@@ -63,7 +63,11 @@ USING_SOIL = 1
 ## COMPILING INFO
 #############################
 
+ifeq ($(BUILDING_IN_LAB), 1)
+CXX    = C:/Strawberry/c/bin/g++.exe
+else
 CXX    = g++
+endif
 CFLAGS = -Wall -g -std=c++11
 
 INCPATH += -I./utilities
