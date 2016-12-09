@@ -19,9 +19,14 @@
 #endif
 
 #include <math.h>
+#include <vector>
+#include <iostream>
+#include <algorithm>
 
 #include "Point.h"
 #include "Vector.h"
+#include "Rain.h"
+#include "Particle.h"
 
 class Ship {
 public:
@@ -42,6 +47,14 @@ public:
         exploded = false;
         initialjump = false;
     }
+	
+	void doSort()
+	{
+		std::sort(thrusterEffects.particles.begin(), thrusterEffects.particles.end(), [this](Particle l, Particle r) {
+		return sortByDot(l, r);});
+	}
+	
+	bool sortByDot(Particle &lhs, Particle &rhs);
     void draw();
     void update(Point campos, Point pos);
     void drawBody();
@@ -62,6 +75,7 @@ public:
     void checkPosition(int size);
     void nearSun(bool isNear, double ratio);
     void setShipShader1(GLuint handle);
+	void setThrusterShader(GLuint handle);
     void setExpTex(GLuint handle);
     bool jumped;
     bool initialjump;
@@ -78,6 +92,7 @@ protected:
     GLuint explosionTexHandle;
     Point position;
     Vector direction;
+	Rain thrusterEffects;
     double heading;
     double wingAngle;
     double thrusterAngle;
@@ -86,4 +101,5 @@ protected:
     bool sun;
     Point cameraPos;
     Point pos;
+	
 };

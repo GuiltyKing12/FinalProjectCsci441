@@ -3,7 +3,6 @@
 #include <vector>
 #include "Point.h"
 #include "Camera.h"
-#include "Ship.h"
 
 class ParticleSystem {
 public:
@@ -11,8 +10,8 @@ public:
     virtual void update() = 0;
     virtual ~ParticleSystem() {};
     int numParticles() {return particles.size();}
-    std::vector<Particle*> getParticles() {return particles;}
-    std::vector<Particle*> particles;
+    std::vector<Particle> getParticles() {return particles;}
+    std::vector<Particle> particles;
     std::string type;
 protected:
     Point source;

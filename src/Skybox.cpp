@@ -102,7 +102,7 @@ void Skybox::draw() {
             } glEnd();
         } glPopMatrix();
         
-        glBindTexture(GL_TEXTURE_2D, rightSide);
+        glBindTexture(GL_TEXTURE_2D, leftSide);
         glPushMatrix(); {
             glTranslatef(0, 0, -size);
             glBegin(GL_QUADS); {
@@ -118,7 +118,7 @@ void Skybox::draw() {
             } glEnd();
         } glPopMatrix();
         
-        glBindTexture(GL_TEXTURE_2D, leftSide);
+        glBindTexture(GL_TEXTURE_2D, rightSide);
         glPushMatrix(); {
             glTranslatef(0, 0, size);
             glBegin(GL_QUADS); {

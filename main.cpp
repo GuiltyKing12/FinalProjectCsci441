@@ -78,6 +78,8 @@ char* fboVertex = "shaders/fboShader.v.glsl";
 char* fboFrag = "shaders/fboShader.f.glsl";
 char* expNorm = "textures/effects/exploda.jpg";
 char* expAlp = "textures/effects/td-explosion1alpha.jpg";
+char* starNorm = "textures/effects/starnorm.jpg";
+char* starAlp = "textures/effects/staralpha.jpg";
 
 GLuint sunShaderHandle;
 GLuint shipShaderHandle1;
@@ -635,8 +637,10 @@ int main(int argc, char** argv) {
     mainCamera = Camera(2, 0, 0, 0, cameraRadius, cameraTheta, cameraPhi);
     skybox = new Skybox(20000);
     
+	GLuint starTexHandle = 0;
     loadParticle(expNorm, expAlp, exptexhandle);
-    
+    loadParticle(starNorm, starAlp, starTexHandle);
+	cout << "STAR" << starTexHandle << endl;
     /*exptexhandle = SOIL_load_OGL_texture(
                                          "textures/effects/exploda.png",
                                          SOIL_LOAD_AUTO,
@@ -661,6 +665,7 @@ int main(int argc, char** argv) {
     
     solarSystem.setSunShader(sunShaderHandle);
     ship.setShipShader1(shipShaderHandle1);
+	ship.setThrusterShader(starTexHandle);
     printf( "[INFO]: Shader compilation complete.\n" );
     
     // register callbacks

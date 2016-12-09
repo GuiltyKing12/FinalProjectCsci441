@@ -22,7 +22,7 @@
 class Rain : public ParticleSystem {
 public:
     Rain() {}
-    Rain(Point position, int width, int depth, double minVel, double maxVel, int rate, int maxParticles, std::string type) {
+    Rain(Point position, int width, int depth, double minVel, double maxVel, int rate, int maxParticles, std::string type, int minLife, int maxLife, GLuint handle) {
         source = position;
         minVelocity = minVel;
         maxVelocity = maxVel;
@@ -31,20 +31,30 @@ public:
         this->rate = rate;
         this->width = width;
         this->depth = depth;
-        setParticles();
-        srand(time(NULL));
+		this->minLife = minLife;
+		this->maxLife = maxLife;
+		srand(time(NULL));
         this->type = type;
+		this->handle = handle;
+		uniformLifeLoc = glGetUniformLocation(handle, "life");
+		uniformMaxLifeLoc = glGetUniformLocation(handle, "maxLife");
+        setParticles();
     }
     ~Rain() {}
     virtual void draw(Point camera, Point pos) override;
     virtual void update() override;
     void setParticles();
 protected:
-    Vector gravity = Vector(0.0, -9.81, 0.0);
+    Vector gravity = Vector(0.0, 0.0, -9.81);
     Point cameraXYZ;
     Point pos;
     int width;
     int depth;
+	int minLife;
+	int maxLife;
     int maxParticles;
     int particlecount;
+	GLuint handle = 0;
+	GLuint uniformLifeLoc = 0;
+	GLuint uniformMaxLifeLoc = 0;
 };

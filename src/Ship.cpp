@@ -1,5 +1,5 @@
 #include "Ship.h"
-#include <iostream>
+
 using namespace std;
 
 void Ship::draw() {
@@ -27,6 +27,7 @@ void Ship::draw() {
             glRotatef(heading, 0, 1, 0);
             glRotatef(shipAngle, 0, 0, 1);
             drawBody();
+			
             double currentAngle = wingAngle;
             for(int i = 0; i < 5; i++) {
                 glPushMatrix();
@@ -80,12 +81,24 @@ void Ship::drawBody() {
             {
                 glDisable(GL_LIGHTING);
                 if(forward || backward || left || right) {
+					glPushMatrix();
                     glRotatef(180, 1, 0, 0);
-                    
-                    glScalef(1, .5, 2);
-                    glutSolidCone(bodySize/2, bodySize, 30, 30);
-                    glTranslatef(-bodySize*2, 0, 0);
-                    glutSolidCone(bodySize/2, bodySize, 30, 30);
+                   
+					glScalef(1, .5, 2);
+					glutSolidCone(bodySize/2, bodySize, 30, 30);
+					glTranslatef(-bodySize*2, 0, 0);
+					glutSolidCone(bodySize/2, bodySize, 30, 30);
+					glPopMatrix();
+					glPushMatrix();
+						doSort();
+						if(thrusterAngle == 0 || thrusterAngle == -180) {
+							glScalef(bodySize/10, bodySize/10, bodySize/10);
+							
+							thrusterEffects.draw(cameraPos, pos);
+							thrusterEffects.update();
+						}
+					glPopMatrix();
+				
                 }
                 glEnable(GL_LIGHTING);
             }
@@ -232,6 +245,12 @@ void Ship::setShipShader1(GLuint handle) {
     uniformRatioLoc = glGetUniformLocation(shipshaderhandle1, "ratio");
 }
 
+void Ship::setThrusterShader(GLuint handle) {
+	Point thruster(0.0, 0.0, -bodySize*5-bodySize);
+	
+	thrusterEffects = Rain(thruster, bodySize*100, 1, .002, .05, 3, 14, "R", 10, 50, handle);
+}
+
 void Ship::setExpTex(GLuint handle) {
     explosionTexHandle = handle;
 }
@@ -258,4 +277,15 @@ void Ship::checkPosition(int bounds) {
     
     if(position.getZ() < -bounds) position.setZ(bounds--);
     else if(position.getZ() > bounds) position.setZ(bounds--);
+}
+
+bool Ship::sortByDot(Particle &lhs, Particle &rhs) {
+	Vector viewPath = pos - cameraPos;
+	viewPath.normalize();
+	Vector lh = cameraPos - lhs.getPoint();
+	Vector rh = cameraPos - rhs.getPoint();
+	if(direction.getZ() > 0) {
+		return dot(lh, viewPath) < dot(rh, viewPath);
+	}
+	else return dot(lh, viewPath) < dot(rh, viewPath);
 }
