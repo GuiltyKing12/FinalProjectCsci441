@@ -51,8 +51,8 @@ void Camera::switchMode(int setMode) {
         camTheta = -1.0f;
     }
     else if(setMode == 2) {
-        camTheta = M_PI / 3.0f;
-        camPhi = 2.8f;
+        camTheta = M_PI / 2.85f;
+        camPhi = 1.75f;
     }
     recomputeOrientation();
 }

@@ -56,7 +56,7 @@ bool fpvMode = false;
 bool pause = false;
 float lPosition[4] = { 0, 0, 0, 1 };
 
-string solarsystemfile = "solarsystem.txt";
+string solarsystemfile = "solarsystem2.txt";
 
 // Camera
 Camera mainCamera;
@@ -629,8 +629,8 @@ int main(int argc, char** argv) {
     
     //do some basic OpenGL setup
     // set camera to arcball initially
-    float cameraTheta = M_PI / 3.0f;
-    float cameraPhi = 2.8f;
+    float cameraTheta = M_PI / 2.85f;
+    float cameraPhi = 1.75f;
     float cameraRadius = 300;
     mainCamera = Camera(2, 0, 0, 0, cameraRadius, cameraTheta, cameraPhi);
     skybox = new Skybox(20000);

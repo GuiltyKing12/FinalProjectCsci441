@@ -31,6 +31,7 @@ public:
     void draw();
     void update(Ship &ship);
     void setSunShader(GLuint handle);
+	bool bezierPoints(std::string bezFile, std::vector<Point> &p);
     
 protected:
     Sun sun;

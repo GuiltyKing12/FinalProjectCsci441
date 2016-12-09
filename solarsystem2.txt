@@ -1,0 +1,10 @@
+9
+S, 1091, 0, 0, 0, .05
+P, 11.4, 0, 0, 1475, 20, mercurymap.jpg, 0, mercuryControlPoints.csv
+P, 28.5, 0, 0, 2305.7, 20, venusmap.jpg, 0, mercuryControlPoints.csv
+P, 30.0, 0, 0, 3000, 20, earthmap1k.jpg, 0, mercuryControlPoints.csv
+P, 15.9, 0, 0, 4310, 20, mars_1k_color.jpg, 0, mercuryControlPoints.csv
+P, 336.0, 0, 0, 5375, .05, jupitermap.jpg, 0, mercuryControlPoints.csv
+P, 283.5, 0, 0, 7930, 20, saturnmap.jpg, 1, saturnringcolor.jpg, 350, mercuryControlPoints.csv
+P, 120.0, 0, 0, 12240, 20, uranusmap.jpg, 0, mercuryControlPoints.csv
+P, 116.4, 0, 0, 16460, 20, neptunemap.jpg, 0, mercuryControlPoints.csv
