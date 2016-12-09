@@ -16,7 +16,6 @@ void main() {
     /********* Vertex Calculations  **********/
     /*****************************************/
     vec4 Vertex_new = gl_Vertex;
-    if(1-ratio > .88) Vertex_new = gl_Vertex + (1-ratio);
     // TODO #14: modify our vertex in object space
     gl_Position = gl_ModelViewProjectionMatrix * Vertex_new;
     gl_TexCoord[0] = gl_MultiTexCoord0;

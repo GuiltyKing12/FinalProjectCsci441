@@ -40,6 +40,7 @@ public:
         forward = false;
         backward = false;
         exploded = false;
+        initialjump = false;
     }
     void draw();
     void update(Point campos, Point pos);
@@ -63,19 +64,20 @@ public:
     void setShipShader1(GLuint handle);
     void setExpTex(GLuint handle);
     bool jumped;
+    bool initialjump;
     bool left;
     bool right;
     bool forward;
     bool backward;
     bool exploded;
     double bodySize;
+    double sunDist;
 protected:
     GLuint shipshaderhandle1;
     GLuint uniformRatioLoc;
     GLuint explosionTexHandle;
     Point position;
     Vector direction;
-    double sunDist;
     double heading;
     double wingAngle;
     double thrusterAngle;

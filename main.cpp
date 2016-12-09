@@ -74,11 +74,15 @@ char* sunVertex = "shaders/sphereShader.v.glsl";
 char* sunFrag = "shaders/sphereShader.f.glsl";
 char* shipVertex1 = "shaders/shipShader.v.glsl";
 char* shipFrag1 = "shaders/shipShader.f.glsl";
+char* fboVertex = "shaders/fboShader.v.glsl";
+char* fboFrag = "shaders/fboShader.f.glsl";
 char* expNorm = "textures/effects/exploda.jpg";
 char* expAlp = "textures/effects/td-explosion1alpha.jpg";
 
 GLuint sunShaderHandle;
 GLuint shipShaderHandle1;
+GLuint fboShaderHandle = 0;
+GLuint uniformRatioLoc = 0;
 GLuint framebufferHandle;
 GLuint renderbufferHandle;
 GLuint framebufferWidth = 1024, framebufferHeight = 1024; // set these to the desired size
@@ -261,12 +265,17 @@ void render() {
         glDisable( GL_DEPTH_TEST );
         glEnable( GL_TEXTURE_2D );
         glBindTexture( GL_TEXTURE_2D, fboTexHandle );
+        if(ship.exploded) {
+            glUseProgram(fboShaderHandle);
+            glUniform1f(uniformRatioLoc, ship.sunDist);
+        }
         glBegin(GL_QUADS); {
             glTexCoord2f(0,0); glVertex2f(-1,-1);
             glTexCoord2f(1,0); glVertex2f( 1,-1);
             glTexCoord2f(1,1); glVertex2f( 1, 1);
             glTexCoord2f(0,1); glVertex2f(-1, 1);
         }; glEnd();
+        if(ship.exploded) glUseProgram(0);
         glDisable( GL_TEXTURE_2D );
         glEnable( GL_DEPTH_TEST );
         glEnable( GL_LIGHTING );
@@ -645,6 +654,9 @@ int main(int argc, char** argv) {
     // set up our shaders (the files are hardcoded in)
     setupParticleShaders(sunVertex, sunFrag, sunShaderHandle);
     setupParticleShaders(shipVertex1, shipFrag1, shipShaderHandle1);
+    setupParticleShaders(fboVertex, fboFrag, fboShaderHandle);
+    uniformRatioLoc = glGetUniformLocation(fboShaderHandle, "ratio");
+    
     solarSystem.setSunShader(sunShaderHandle);
     ship.setShipShader1(shipShaderHandle1);
     printf( "[INFO]: Shader compilation complete.\n" );
