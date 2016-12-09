@@ -65,7 +65,7 @@ bool SolarSystem::readfile(string inputfile) {
         split(line, delim.c_str(), attr);
         
         cout << line << endl;
-        
+
         if(attr[0] == "S") {
             fprintf(stdout, "Sun\n");
             Point sunpos = Point(atoi(attr[2].c_str()),
@@ -93,7 +93,7 @@ bool SolarSystem::readfile(string inputfile) {
                                   atoi(attr[4].c_str()));
             
             string image = "textures/planets/" + attr[6].substr(1);
-            string test = "textures/planets/jupitermap.jpg";
+            //string test = "textures/planets/jupitermap.jpg";
             GLuint texHandle = SOIL_load_OGL_texture(
                                                      image.c_str(),
                                                      SOIL_LOAD_AUTO,
@@ -105,6 +105,9 @@ bool SolarSystem::readfile(string inputfile) {
             
             cout << image << endl;
             cout << texHandle << endl;
+			
+			vector<Point> orbitalPath;
+					
             if(atoi(attr[7].c_str()) == 1) {
                 image = "textures/planets/" + attr[8].substr(1);
                 GLuint texHandle2 = SOIL_load_OGL_texture(
@@ -117,20 +120,27 @@ bool SolarSystem::readfile(string inputfile) {
                                                          );
                 cout << image << endl;
                 cout << texHandle2 << endl;
+				
+				if( !bezierPoints(attr[10].substr(1), orbitalPath) ) return false;
+				
                 planets.push_back(Planet(atof(attr[1].c_str()),
                                          planpos,
                                          Vector(0, 1, 0),
                                          atof(attr[5].c_str()),
                                          texHandle,
                                          texHandle2,
-                                         atof(attr[9].c_str())));
+                                         atof(attr[9].c_str()),
+										 orbitalPath));
             }
             else {
-            planets.push_back(Planet(atof(attr[1].c_str()),
-                                     planpos,
-                                     Vector(0, 1, 0),
-                                     atof(attr[5].c_str()),
-                                     texHandle));
+				if( !bezierPoints(attr[8].substr(1), orbitalPath) ) return false;
+				
+				planets.push_back(Planet(atof(attr[1].c_str()),
+										 planpos,
+										 Vector(0, 1, 0),
+										 atof(attr[5].c_str()),
+										 texHandle,
+										 orbitalPath));
             }
         }
         number--;
@@ -151,4 +161,37 @@ void SolarSystem::split(const string &s, const char* delim, vector<string> & v){
         token = strtok(NULL, delim);
     }
     free(dup);
+}
+
+bool SolarSystem::bezierPoints(string bezFile, vector<Point> &p) {
+	// Return false if the file cannot be opened
+	string file = "beziers/" + bezFile;
+	cout << file << endl;
+    ifstream fin;
+    fin.open(file.c_str());
+    if(!fin) return false;
+    
+    // Reads how many points are contained in the file
+    string num;
+    getline(fin, num);
+	int numPoints = atoi(num.c_str());
+    fprintf(stdout, "Number of Points: %d\n", numPoints);
+
+    // Reads in the points
+	for(int i = 0; i < numPoints; i++) {
+        string line;
+        getline(fin, line);
+        vector<string> coords;
+        string delim = ",";
+
+        split(line, delim.c_str(), coords);
+
+        // Uses the values in the coords array to create a new point and then stores it into the controlPoints vector
+        Point point(atof(coords[0].c_str()), atof(coords[1].c_str()), atof(coords[2].c_str()));
+        p.push_back(point);
+        fprintf(stdout, "Point( %f, %f, %f)\n", atof(coords[0].c_str()), atof(coords[1].c_str()), atof(coords[2].c_str()));
+    }
+
+    fin.close();
+    return true;
 }
