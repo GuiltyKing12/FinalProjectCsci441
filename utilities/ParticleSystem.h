@@ -3,7 +3,7 @@
 #include <vector>
 #include "Point.h"
 #include "Camera.h"
-#include "Hero.h"
+#include "Ship.h"
 
 class ParticleSystem {
 public:
