@@ -332,6 +332,8 @@ void mouseMotion(int x, int y) {
 
 void normal_keys_down(unsigned char key, int x, int y) {
     keys[key] = true;
+	
+	if(keys['p'] || keys['P']) pause = !pause;
 }
 
 void normal_keys_up(unsigned char key, int x, int y) {
@@ -349,8 +351,6 @@ void check_keys() {
         mainCamera.moveBackward();
         glutPostRedisplay();
     }
-    
-    if(keys['p'] || keys['P']) pause = !pause;
     
     if(!ship.exploded) {
         if(keys['e'] || keys['E']) ship.hyperJump();
