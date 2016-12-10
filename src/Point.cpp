@@ -110,6 +110,10 @@
 		return -1;
 	}
 
+	double Point::mag(){
+		double value = x*x + y*y + z*z;
+		return sqrt(value);
+	}
 	void Point::glVertex() {
 		glVertex3f(x, y, z);
 	}
