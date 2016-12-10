@@ -16,22 +16,27 @@
 
 #include "Point.h"
 #include "Vector.h"
+#include "Object.h"
+#include <string>
+#include <iostream>
 
 class Comet{
-				public:
-								Comet(){}
-								Comet(double size, Point position, Vector direction){
-												this->size = size;
-												this->position = position;
-												this->direction = direction;	
-
-								}
-								void update();
-								void draw();
-								Point getPosition();
-								double getSize();
-				protected:
-								Point position;
-								Vector direction;
-								double size;
-}
+	public:
+		Comet(){}
+		Comet(double size, Point position, Vector direction){
+			this->size = size;
+			this->position = position;
+			this->direction = direction;	
+			string rockFileName = "models/SmallRock.obj";
+			obj = new Object(rockFileName.c_str());
+		}
+		void update();
+		void draw();
+		Point getPosition();
+		double getSize();
+	protected:
+		Point position;
+		Vector direction;
+		double size;
+		Object *obj;
+};

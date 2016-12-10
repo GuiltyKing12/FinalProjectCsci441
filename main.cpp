@@ -31,6 +31,7 @@
 #include "utilities/Planet.h"
 #include "utilities/SolarSystem.h"
 #include "utilities/Ship.h"
+#include "utilities/Comet.h"
 
 using namespace std;
 
@@ -51,6 +52,7 @@ Skybox* skybox;
 Planet testPlanet;
 SolarSystem solarSystem;
 Ship ship;
+Comet comet;
 
 bool fpvMode = false;
 bool pause = false;
@@ -176,7 +178,8 @@ void resize(int w, int h) {
 void drawScene(bool fpv) {
     glCallList(envDL);
     solarSystem.draw();
-    if(!fpv) ship.draw();
+    comet.draw();
+		if(!fpv) ship.draw();
 }
 
 void scissorScene(size_t w, size_t h) {
@@ -241,7 +244,8 @@ void render() {
         // else we are in arcball looking at the current hero
         mainCamera.look(ship.getPosition());
         glLightfv( GL_LIGHT0, GL_POSITION, lPosition );
-        
+       	float cometPosition[4] = {(float)comet.getPosition().getX(),(float)comet.getPosition().getY(),(float) comet.getPosition().getZ(),1};
+			 	glLightfv( GL_LIGHT1, GL_POSITION, cometPosition);
         // draws main scene first time
         drawScene(false);
         
@@ -292,6 +296,7 @@ void render() {
     
     if(!pause) {
         solarSystem.update(ship);
+				comet.update();
     }
     ship.update(cameraXYZ, pos);
     
@@ -517,7 +522,16 @@ void init_scene() {
     glLightfv( GL_LIGHT0, GL_AMBIENT, ambientCol );
     glEnable( GL_LIGHTING );
     glEnable( GL_LIGHT0 );
-    
+ 
+		diffuseLightCol[0] = 0.5;
+		diffuseLightCol[1] = 0.5;
+		specularLightCol[0] = 0.5;
+		specularLightCol[1] = 0.5;
+		glLightfv( GL_LIGHT1, GL_DIFFUSE, diffuseLightCol );
+    glLightfv( GL_LIGHT1, GL_SPECULAR, specularLightCol );
+    glLightfv( GL_LIGHT1, GL_AMBIENT, ambientCol );
+		glEnable(GL_LIGHT1);
+
     glShadeModel(GL_SMOOTH);
     
     glEnable(GL_BLEND);
@@ -649,7 +663,9 @@ int main(int argc, char** argv) {
     solarSystem = SolarSystem(solarsystemfile);
     ship = Ship(Point(6000, 0, 0), 1);
     ship.setExpTex(exptexhandle);
-    init_scene();
+    comet = Comet(10, Point(0.0,0.0,9000.0),Vector(0,0,-10));
+		cout << "Created Comet" << endl;
+		init_scene();
     create_menu();
     printf( "[INFO]: OpenGL Scene set up\n" );
     

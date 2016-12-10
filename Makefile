@@ -226,7 +226,7 @@ endif
 all: $(TARGET)
 
 test: all
-	./$(TARGET) controlFile.txt
+	./$(TARGET)
 clean:
 	rm -f $(OBJECTS) $(TARGET)
 	if [ $(USING_OPENAL) -eq 1 ]; \
