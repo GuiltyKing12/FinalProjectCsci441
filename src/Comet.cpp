@@ -3,9 +3,10 @@
 
 
 void Comet::update(){
-
-
-	position += 0.5*direction;
+	angle += speed*0.005;
+	double mag = position.mag();
+	position.setX(mag*sin(angle));
+	position.setZ(mag*cos(angle));
 }
 
 void Comet::draw(){
@@ -25,7 +26,9 @@ void Comet::draw(){
 	}
 	glPopMatrix();	
 }
-
+void Comet::setPosition(Point item){
+	position = item;
+}
 Point Comet::getPosition(){
 	return position;
 }

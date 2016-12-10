@@ -376,7 +376,8 @@ void check_keys() {
     if(ship.exploded && keys['r'] || keys['R']) {
         ship.exploded = false;
         ship.setPosition(Point(6000, 0, 0));
-    }
+    		comet.setPosition(Point(0.0,0.0,9000.0));
+		}
     
     ship.checkPosition(skybox->getSize());
 }
@@ -663,7 +664,7 @@ int main(int argc, char** argv) {
     solarSystem = SolarSystem(solarsystemfile);
     ship = Ship(Point(6000, 0, 0), 1);
     ship.setExpTex(exptexhandle);
-    comet = Comet(10, Point(0.0,0.0,9000.0),Vector(0,0,-10));
+    comet = Comet(10, Point(0.0,0.0,9000.0),1);
 		cout << "Created Comet" << endl;
 		init_scene();
     create_menu();

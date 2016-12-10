@@ -18,7 +18,7 @@
 
 		// MISCELLANEOUS
 		double at(int i);
-
+		double mag();
 		/* call glVertex3f( a, b, c ) */
 		void glVertex();
 		
