@@ -14,6 +14,7 @@ void SolarSystem::draw() {
     glUseProgram(0);
     for(int i = 0; i < planets.size(); i++) {
         planets[i].draw();
+		//planets[i].orbit.draw();
     }
 }
 
@@ -106,7 +107,8 @@ bool SolarSystem::readfile(string inputfile) {
             cout << image << endl;
             cout << texHandle << endl;
 			
-			vector<Point> orbitalPath;
+			//vector<Point> orbitalPath;
+			Track orbitalPath;
 					
             if(atoi(attr[7].c_str()) == 1) {
                 image = "textures/planets/" + attr[8].substr(1);
@@ -121,7 +123,8 @@ bool SolarSystem::readfile(string inputfile) {
                 cout << image << endl;
                 cout << texHandle2 << endl;
 				
-				if( !bezierPoints(attr[10].substr(1), orbitalPath) ) return false;
+				//if( !bezierPoints(attr[10].substr(1), orbitalPath) ) return false;
+				orbitalPath = Track(attr[10].substr(1), atof(attr[11].c_str()));
 				
                 planets.push_back(Planet(atof(attr[1].c_str()),
                                          planpos,
@@ -133,7 +136,8 @@ bool SolarSystem::readfile(string inputfile) {
 										 orbitalPath));
             }
             else {
-				if( !bezierPoints(attr[8].substr(1), orbitalPath) ) return false;
+				//if( !bezierPoints(attr[8].substr(1), orbitalPath) ) return false;
+				orbitalPath = Track(attr[8].substr(1), atof(attr[9].c_str()));
 				
 				planets.push_back(Planet(atof(attr[1].c_str()),
 										 planpos,
