@@ -3,7 +3,7 @@
 
 
 void Comet::update(){
-	angle += speed*0.005;
+	angle += speed*0.0005;
 	double mag = position.mag();
 	position.setX(mag*sin(angle));
 	position.setZ(mag*cos(angle));
