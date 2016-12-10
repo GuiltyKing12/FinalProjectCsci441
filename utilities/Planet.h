@@ -17,6 +17,7 @@
 #include <vector>
 #include "Point.h"
 #include "Vector.h"
+#include "Track.h"
 
 class Planet {
 public:
@@ -29,9 +30,10 @@ public:
         gravityRadius = 20;
 		orbitPos = 0;
 		currentPoint = 0;
+		//orbitSpeed = 1 / 40;
     }
     
-    Planet(double radius, Point pos, Vector dir, double revolution, GLuint handle, std::vector<Point> orbitalPath) {
+    Planet(double radius, Point pos, Vector dir, double revolution, GLuint handle, Track orbitalPath) {
         planetRadius = radius;
         position = pos;
         direction = dir;
@@ -43,9 +45,10 @@ public:
 		orbit = orbitalPath;
 		orbitPos = 0;
 		currentPoint = 0;
+		//orbitSpeed = 1 / 40;
     }
     
-    Planet(double radius, Point pos, Vector dir, double revolution, GLuint handle, GLuint handle2, double ringRadius, std::vector<Point> orbitalPath) {
+    Planet(double radius, Point pos, Vector dir, double revolution, GLuint handle, GLuint handle2, double ringRadius, Track orbitalPath) {
         planetRadius = radius;
         position = pos;
         direction = dir;
@@ -59,6 +62,7 @@ public:
 		orbit = orbitalPath;
 		orbitPos = 0;
 		currentPoint = 0;
+		//orbitSpeed = 1 / 40;
     }
     
     ~Planet() {}
@@ -69,8 +73,9 @@ public:
     void drawRing( double inner, double outer, unsigned int pts );
     double getRadius();
     bool ringPlanet;
-	std::vector<Point> orbit;
+	Track orbit;
 	int orbitPos;
+	float orbitSpeed = 1.0f / 40;
 	float currentPoint;
 	Point evaluateBezierCurve(Point p0, Point p1, Point p2, Point p3, float t);
 protected:

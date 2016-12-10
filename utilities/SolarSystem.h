@@ -11,6 +11,7 @@
 #include "Sun.h"
 #include "Point.h"
 #include "Vector.h"
+#include "Track.h"
 #include "Ship.h"
 
 class SolarSystem {

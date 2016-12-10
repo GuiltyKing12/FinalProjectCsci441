@@ -54,12 +54,17 @@ void Planet::update() {
     currentRevolution += revolution;
     if(currentRevolution > 360) currentRevolution = currentRevolution - 360;
 
-    /*position = evaluateBezierCurve(orbit[orbitPos], orbit[orbitPos + 1], orbit[orbitPos + 2], orbit[orbitPos + 3], currentPoint);
+	/*currentPoint += orbitSpeed;
+	cout << "CP: " << currentPoint << " OS: " << orbitSpeed << endl;
+    position = evaluateBezierCurve(orbit[orbitPos], orbit[orbitPos + 1], orbit[orbitPos + 2], orbit[orbitPos + 3], currentPoint);
+	cout << "POS: " << position.getX() << endl;
     if(currentPoint > 1) {
         orbitPos += 3;
         currentPoint = 0;
     }
     if(orbitPos == orbit.size() - 1) orbitPos = 0;*/
+	Point arc = orbit.arc_pos();
+	position = Point(arc.getX(), arc.getY(), arc.getZ());
 }
 
 void Planet::drawRing( double inner, double outer, unsigned int pts )
@@ -76,11 +81,11 @@ void Planet::drawRing( double inner, double outer, unsigned int pts )
 }
 
 // Computes a point along a Bezier curve
-Point Planet::evaluateBezierCurve( Point p0, Point p1, Point p2, Point p3, float t ) {
+/*Point Planet::evaluateBezierCurve( Point p0, Point p1, Point p2, Point p3, float t ) {
     Point ptA = ((-1.0f * p0) + (3.0f * p1) + (-3.0f * p2) + p3) * pow(t, 3);
     Point ptB = ((3.0f * p0) + (-6.0f * p1) + (3.0f * p2)) * pow(t, 2);
     Point ptC = ((-3.0f * p0) + (3.0f * p1)) * t;
     
     Point curvePoint = p0 + ptA + ptB + ptC;
     return curvePoint;
-}
+}*/
