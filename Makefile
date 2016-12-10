@@ -39,7 +39,7 @@ else ifeq ($(COMP), 1)
 else ifeq ($(COMP), 2)
 endif
 
-BUILDING_IN_LAB = 1
+BUILDING_IN_LAB = 0
 
 USING_GLEW = 1
 USING_GLUI = 0
