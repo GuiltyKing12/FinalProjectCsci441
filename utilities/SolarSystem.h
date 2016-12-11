@@ -32,7 +32,8 @@ public:
     ~SolarSystem() {}
     
     void draw();
-    void update(Ship &ship);
+    void update();
+    void checkShipCrash(Ship& ship);
     void setSunShader(GLuint handle);
 	bool bezierPoints(std::string bezFile, std::vector<Point> &p);
     

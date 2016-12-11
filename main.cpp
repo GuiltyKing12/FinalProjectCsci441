@@ -299,9 +299,10 @@ void render() {
     drawFps();
     
     if(!pause) {
-        solarSystem.update(ship);
+        solarSystem.update();
 		comet.update();
     }
+    solarSystem.checkShipCrash(ship);
     comet.didHitShip(ship);
     ship.update(cameraXYZ, pos);
     

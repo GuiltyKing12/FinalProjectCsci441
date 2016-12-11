@@ -20,38 +20,47 @@ void SolarSystem::draw() {
     
 }
 
-void SolarSystem::update(Ship &ship) {
+void SolarSystem::update() {
     sun.update();
     asteroidSystem.update();
+    for(int i = 0; i < planets.size(); i++) {
+        planets[i].update();
+    }
+}
+
+void SolarSystem::checkShipCrash(Ship& ship){
     double distance = (ship.getPosition() - sun.getPosition()).mag() - sun.getRadius();
     if(distance <= sun.getRadius() * 2) {
         // do some death animation
         double ratio = distance / (sun.getRadius() * 2);
         ship.nearSun(true, ratio);
-        
         if(ratio < .1) {
             ship.exploded = true;
         }
     }
-    else ship.nearSun(false, 0.0);
+    else {
+        ship.nearSun(false, 0.0);
+    }
+
     for(int i = 0; i < planets.size(); i++) {
-        planets[i].update();
         distance = (planets[i].getPosition() - ship.getPosition()).mag() - planets[i].getRadius();
         if(distance <= planets[i].getRadius()+ship.bodySize*5) {
-           double ratio = distance / (planets[i].getRadius()+ship.bodySize*5);
-           if(ratio < .1) ship.exploded = true;
-       }
-   }
-
-   vector<Asteroid> asteroids = asteroidSystem.getAsteroids();
-   for(auto& asteroid : asteroids){
-    distance = (ship.getPosition() - asteroid.getPosition()).mag() - asteroid.getSize();
-    if(distance < 5){
-        // Crashed into Asteroid
-        ship.exploded = true;
-        break;
+            double ratio = distance / (planets[i].getRadius()+ship.bodySize*5);
+            if(ratio < .1) {
+                ship.exploded = true;
+            }
+        }
     }
-}
+
+    vector<Asteroid> asteroids = asteroidSystem.getAsteroids();
+    for(auto& asteroid : asteroids){
+        distance = (ship.getPosition() - asteroid.getPosition()).mag() - asteroid.getSize();
+        if(distance < 5){
+        // Crashed into Asteroid
+            ship.exploded = true;
+            break;
+        }
+    }
 }
 
 void SolarSystem::setSunShader(GLuint handle) {
@@ -82,17 +91,17 @@ bool SolarSystem::readfile(string inputfile) {
         if(attr[0] == "S") {
             fprintf(stdout, "Sun\n");
             Point sunpos = Point(atoi(attr[2].c_str()),
-             atoi(attr[3].c_str()),
-             atoi(attr[4].c_str()));
+               atoi(attr[3].c_str()),
+               atoi(attr[4].c_str()));
             
             GLuint texHandle = SOIL_load_OGL_texture(
-             "textures/planets/sunmap.jpg",
-             SOIL_LOAD_AUTO,
-             SOIL_CREATE_NEW_ID,
-             SOIL_FLAG_MIPMAPS
-             | SOIL_FLAG_INVERT_Y
-             | SOIL_FLAG_COMPRESS_TO_DXT
-             );
+               "textures/planets/sunmap.jpg",
+               SOIL_LOAD_AUTO,
+               SOIL_CREATE_NEW_ID,
+               SOIL_FLAG_MIPMAPS
+               | SOIL_FLAG_INVERT_Y
+               | SOIL_FLAG_COMPRESS_TO_DXT
+               );
             
             sun = Sun(atof(attr[1].c_str()),
               sunpos,
@@ -108,13 +117,13 @@ bool SolarSystem::readfile(string inputfile) {
             string image = "textures/planets/" + attr[6].substr(1);
             //string test = "textures/planets/jupitermap.jpg";
             GLuint texHandle = SOIL_load_OGL_texture(
-             image.c_str(),
-             SOIL_LOAD_AUTO,
-             SOIL_CREATE_NEW_ID,
-             SOIL_FLAG_MIPMAPS
-             | SOIL_FLAG_INVERT_Y
-             | SOIL_FLAG_COMPRESS_TO_DXT
-             );
+               image.c_str(),
+               SOIL_LOAD_AUTO,
+               SOIL_CREATE_NEW_ID,
+               SOIL_FLAG_MIPMAPS
+               | SOIL_FLAG_INVERT_Y
+               | SOIL_FLAG_COMPRESS_TO_DXT
+               );
             
             cout << image << endl;
             cout << texHandle << endl;
@@ -125,13 +134,13 @@ bool SolarSystem::readfile(string inputfile) {
             if(atoi(attr[7].c_str()) == 1) {
                 image = "textures/planets/" + attr[8].substr(1);
                 GLuint texHandle2 = SOIL_load_OGL_texture(
-                 image.c_str(),
-                 SOIL_LOAD_AUTO,
-                 SOIL_CREATE_NEW_ID,
-                 SOIL_FLAG_MIPMAPS
-                 | SOIL_FLAG_INVERT_Y
-                 | SOIL_FLAG_COMPRESS_TO_DXT
-                 );
+                   image.c_str(),
+                   SOIL_LOAD_AUTO,
+                   SOIL_CREATE_NEW_ID,
+                   SOIL_FLAG_MIPMAPS
+                   | SOIL_FLAG_INVERT_Y
+                   | SOIL_FLAG_COMPRESS_TO_DXT
+                   );
                 cout << image << endl;
                 cout << texHandle2 << endl;
 
@@ -139,24 +148,24 @@ bool SolarSystem::readfile(string inputfile) {
                 orbitalPath = Track(attr[10].substr(1), atof(attr[11].c_str()));
 
                 planets.push_back(Planet(atof(attr[1].c_str()),
-                 planpos,
-                 Vector(0, 1, 0),
-                 atof(attr[5].c_str()),
-                 texHandle,
-                 texHandle2,
-                 atof(attr[9].c_str()),
-                 orbitalPath));
+                   planpos,
+                   Vector(0, 1, 0),
+                   atof(attr[5].c_str()),
+                   texHandle,
+                   texHandle2,
+                   atof(attr[9].c_str()),
+                   orbitalPath));
             }
             else {
 				//if( !bezierPoints(attr[8].substr(1), orbitalPath) ) return false;
                 orbitalPath = Track(attr[8].substr(1), atof(attr[9].c_str()));
 
                 planets.push_back(Planet(atof(attr[1].c_str()),
-                   planpos,
-                   Vector(0, 1, 0),
-                   atof(attr[5].c_str()),
-                   texHandle,
-                   orbitalPath));
+                 planpos,
+                 Vector(0, 1, 0),
+                 atof(attr[5].c_str()),
+                 texHandle,
+                 orbitalPath));
             }
         }else if(attr[0] == "A"){
             asteroidSystem = AsteroidSystem(atof(attr[1].c_str()),
