@@ -8,6 +8,7 @@
 #include <ctime>
 
 #include "AsteroidSystem.h"
+#include "Asteroid.h"
 #include "Planet.h"
 #include "Sun.h"
 #include "Point.h"

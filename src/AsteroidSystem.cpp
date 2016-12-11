@@ -29,3 +29,7 @@ void AsteroidSystem::generateAsteroids(){
 		asteroids.push_back(tempAsteroid);
 	}
 }
+
+std::vector<Asteroid> AsteroidSystem::getAsteroids(){
+	return asteroids;
+}

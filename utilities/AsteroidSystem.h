@@ -41,6 +41,7 @@ public:
 	void update();
 	void draw();
 	void generateAsteroids();
+	vector<Asteroid> getAsteroids();
 protected:
 	Object* obj;
 	vector<Asteroid> asteroids;
