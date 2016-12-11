@@ -1,10 +1,12 @@
 #include "Asteroid.h"
 #include <iostream>
+
 void Asteroid::update(){
-	angle += speed*0.005;
+	angle += speed*0.0005;
 	position.setX(radius*sin(angle));
 	position.setZ(radius*cos(angle));
 }
+
 void Asteroid::draw(){
 	glPushMatrix();
 	{

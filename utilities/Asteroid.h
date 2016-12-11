@@ -24,15 +24,14 @@
 class Asteroid{
 	public:
 		Asteroid(){}
-		Asteroid(double size, double radius ,double angle,  double speed){
-			std::cout << "Creating" << std::endl;
-			this->size = size;
-			this->speed = speed;	
-			this->angle = angle;
-			this->radius = radius;
-			this->position = Point(radius*sin(angle), 0.0, radius*cos(angle));
-			string rockFileName = "models/LargeRock.obj";
-			obj = new Object(rockFileName.c_str());
+		Asteroid(double inputsize, double inputradius ,double inputangle,  double inputspeed, Object* inputObj){
+			size = inputsize;
+			speed = inputspeed;	
+			angle = inputangle;
+			radius = inputradius;
+			//position = Point(radius*sin(angle), 0.0, radius*cos(angle));
+			//string rockFileName = "models/LargeRock.obj";
+			obj = inputObj;
 		}
 		~Asteroid(){}
 		void update();

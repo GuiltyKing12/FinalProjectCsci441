@@ -33,12 +33,16 @@ public:
 		this->maxSize = maxSize;
 		this->numAsteroids = numAsteroids;
 		this->speed = speed;
+		string rockFileName = "models/LargeRock.obj";
+		cout << rockFileName << endl;
+		obj = new Object(rockFileName.c_str());
 	}
 	~AsteroidSystem(){}
 	void update();
 	void draw();
 	void generateAsteroids();
 protected:
+	Object* obj;
 	vector<Asteroid> asteroids;
 	double minRad;
 	double maxRad;
