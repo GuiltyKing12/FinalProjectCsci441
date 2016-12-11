@@ -12,16 +12,18 @@ void SolarSystem::draw() {
     else glUniform1i(uniformDistortLoc, 0);
     sun.draw();
     glUseProgram(0);
+    asteroidSystem.draw();
     for(int i = 0; i < planets.size(); i++) {
         planets[i].draw();
 		//planets[i].orbit.draw();
     }
+    
 }
 
 void SolarSystem::update(Ship &ship) {
     sun.update();
+    asteroidSystem.update();
     double distance = (ship.getPosition() - sun.getPosition()).mag() - sun.getRadius();
-    
     if(distance <= sun.getRadius() * 2) {
         // do some death animation
         double ratio = distance / (sun.getRadius() * 2);
@@ -36,10 +38,11 @@ void SolarSystem::update(Ship &ship) {
         planets[i].update();
         distance = (planets[i].getPosition() - ship.getPosition()).mag() - planets[i].getRadius();
         if(distance <= planets[i].getRadius()+ship.bodySize*5) {
-           double ratio = distance / (planets[i].getRadius()+ship.bodySize*5);
-            if(ratio < .1) ship.exploded = true;
-        }
-    }
+         double ratio = distance / (planets[i].getRadius()+ship.bodySize*5);
+         if(ratio < .1) ship.exploded = true;
+     }
+ }
+ 
 }
 
 void SolarSystem::setSunShader(GLuint handle) {
@@ -66,86 +69,96 @@ bool SolarSystem::readfile(string inputfile) {
         split(line, delim.c_str(), attr);
         
         cout << line << endl;
-
+        cout << attr[0].c_str() << endl;
         if(attr[0] == "S") {
             fprintf(stdout, "Sun\n");
             Point sunpos = Point(atoi(attr[2].c_str()),
-                                 atoi(attr[3].c_str()),
-                                 atoi(attr[4].c_str()));
+               atoi(attr[3].c_str()),
+               atoi(attr[4].c_str()));
             
             GLuint texHandle = SOIL_load_OGL_texture(
-                                                     "textures/planets/sunmap.jpg",
-                                                     SOIL_LOAD_AUTO,
-                                                     SOIL_CREATE_NEW_ID,
-                                                     SOIL_FLAG_MIPMAPS
-                                                     | SOIL_FLAG_INVERT_Y
-                                                     | SOIL_FLAG_COMPRESS_TO_DXT
-                                                     );
+               "textures/planets/sunmap.jpg",
+               SOIL_LOAD_AUTO,
+               SOIL_CREATE_NEW_ID,
+               SOIL_FLAG_MIPMAPS
+               | SOIL_FLAG_INVERT_Y
+               | SOIL_FLAG_COMPRESS_TO_DXT
+               );
             
             sun = Sun(atof(attr[1].c_str()),
-                      sunpos,
-                      atof(attr[5].c_str()),
-                      texHandle);
+              sunpos,
+              atof(attr[5].c_str()),
+              texHandle);
         }
         else if(attr[0] == "P") {
             fprintf(stdout, "Planet\n");
             Point planpos = Point(atoi(attr[2].c_str()),
-                                  atoi(attr[3].c_str()),
-                                  atoi(attr[4].c_str()));
+              atoi(attr[3].c_str()),
+              atoi(attr[4].c_str()));
             
             string image = "textures/planets/" + attr[6].substr(1);
             //string test = "textures/planets/jupitermap.jpg";
             GLuint texHandle = SOIL_load_OGL_texture(
-                                                     image.c_str(),
-                                                     SOIL_LOAD_AUTO,
-                                                     SOIL_CREATE_NEW_ID,
-                                                     SOIL_FLAG_MIPMAPS
-                                                     | SOIL_FLAG_INVERT_Y
-                                                     | SOIL_FLAG_COMPRESS_TO_DXT
-                                                     );
+               image.c_str(),
+               SOIL_LOAD_AUTO,
+               SOIL_CREATE_NEW_ID,
+               SOIL_FLAG_MIPMAPS
+               | SOIL_FLAG_INVERT_Y
+               | SOIL_FLAG_COMPRESS_TO_DXT
+               );
             
             cout << image << endl;
             cout << texHandle << endl;
-			
+
 			//vector<Point> orbitalPath;
-			Track orbitalPath;
-					
+            Track orbitalPath;
+
             if(atoi(attr[7].c_str()) == 1) {
                 image = "textures/planets/" + attr[8].substr(1);
                 GLuint texHandle2 = SOIL_load_OGL_texture(
-                                                         image.c_str(),
-                                                         SOIL_LOAD_AUTO,
-                                                         SOIL_CREATE_NEW_ID,
-                                                         SOIL_FLAG_MIPMAPS
-                                                         | SOIL_FLAG_INVERT_Y
-                                                         | SOIL_FLAG_COMPRESS_TO_DXT
-                                                         );
+                   image.c_str(),
+                   SOIL_LOAD_AUTO,
+                   SOIL_CREATE_NEW_ID,
+                   SOIL_FLAG_MIPMAPS
+                   | SOIL_FLAG_INVERT_Y
+                   | SOIL_FLAG_COMPRESS_TO_DXT
+                   );
                 cout << image << endl;
                 cout << texHandle2 << endl;
-				
+
 				//if( !bezierPoints(attr[10].substr(1), orbitalPath) ) return false;
-				orbitalPath = Track(attr[10].substr(1), atof(attr[11].c_str()));
-				
+                orbitalPath = Track(attr[10].substr(1), atof(attr[11].c_str()));
+
                 planets.push_back(Planet(atof(attr[1].c_str()),
-                                         planpos,
-                                         Vector(0, 1, 0),
-                                         atof(attr[5].c_str()),
-                                         texHandle,
-                                         texHandle2,
-                                         atof(attr[9].c_str()),
-										 orbitalPath));
+                   planpos,
+                   Vector(0, 1, 0),
+                   atof(attr[5].c_str()),
+                   texHandle,
+                   texHandle2,
+                   atof(attr[9].c_str()),
+                   orbitalPath));
             }
             else {
 				//if( !bezierPoints(attr[8].substr(1), orbitalPath) ) return false;
-				orbitalPath = Track(attr[8].substr(1), atof(attr[9].c_str()));
-				
-				planets.push_back(Planet(atof(attr[1].c_str()),
-										 planpos,
-										 Vector(0, 1, 0),
-										 atof(attr[5].c_str()),
-										 texHandle,
-										 orbitalPath));
+                orbitalPath = Track(attr[8].substr(1), atof(attr[9].c_str()));
+
+                planets.push_back(Planet(atof(attr[1].c_str()),
+                 planpos,
+                 Vector(0, 1, 0),
+                 atof(attr[5].c_str()),
+                 texHandle,
+                 orbitalPath));
             }
+        }else if(attr[0] == "A"){
+            asteroidSystem = AsteroidSystem(atof(attr[1].c_str()),
+                atof(attr[2].c_str()),
+                atof(attr[3].c_str()),
+                atof(attr[4].c_str()),
+                atoi(attr[5].c_str()),
+                atof(attr[6].c_str())
+                );
+            asteroidSystem.generateAsteroids();
+
         }
         number--;
     }
@@ -178,11 +191,11 @@ bool SolarSystem::bezierPoints(string bezFile, vector<Point> &p) {
     // Reads how many points are contained in the file
     string num;
     getline(fin, num);
-	int numPoints = atoi(num.c_str());
+    int numPoints = atoi(num.c_str());
     fprintf(stdout, "Number of Points: %d\n", numPoints);
 
     // Reads in the points
-	for(int i = 0; i < numPoints; i++) {
+    for(int i = 0; i < numPoints; i++) {
         string line;
         getline(fin, line);
         vector<string> coords;

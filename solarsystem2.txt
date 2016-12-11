@@ -1,4 +1,4 @@
-9
+10
 S, 1091, 0, 0, 0, .05
 P, 11.4, 0, 0, 1475, 20, mercurymap.jpg, 0, mercuryControlPoints.csv, 700
 P, 28.5, 0, 0, 2305.7, 20, venusmap.jpg, 0, venusControlPoints.csv, 900
@@ -8,3 +8,4 @@ P, 336.0, 0, 0, 5375, .05, jupitermap.jpg, 0, jupiterControlPoints.csv, 2000
 P, 283.5, 0, 0, 7930, 20, saturnmap.jpg, 1, saturnringcolor.jpg, 350, saturnControlPoints.csv, 1700
 P, 120.0, 0, 0, 12240, 20, uranusmap.jpg, 0, uranusControlPoints.csv, 1400
 P, 116.4, 0, 0, 16460, 20, neptunemap.jpg, 0, neptuneControlPoints.csv, 600
+A, 4500, 5000, 2, 5, 1, 2

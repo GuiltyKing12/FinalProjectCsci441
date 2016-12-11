@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <ctime>
 
+#include "AsteroidSystem.h"
 #include "Planet.h"
 #include "Sun.h"
 #include "Point.h"
@@ -37,6 +38,7 @@ public:
 protected:
     Sun sun;
     std::vector<Planet> planets;
+    AsteroidSystem asteroidSystem;
     void split(const std::string &s, const char* delim, std::vector<std::string> & v);
     void create();
     bool readfile(std::string inputfile);
