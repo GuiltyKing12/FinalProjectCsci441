@@ -300,8 +300,9 @@ void render() {
     
     if(!pause) {
         solarSystem.update(ship);
-				comet.update();
+		comet.update();
     }
+    comet.didHitShip(ship);
     ship.update(cameraXYZ, pos);
     
     glutSwapBuffers();

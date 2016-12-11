@@ -35,3 +35,9 @@ Point Comet::getPosition(){
 double Comet::getSize(){
 	return size;
 }
+void Comet::didHitShip(Ship& ship){
+	double distance = (ship.getPosition() - position).mag() - size;
+    if(distance < size*1.5){
+    	ship.exploded = true;
+    }
+}

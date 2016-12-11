@@ -15,6 +15,7 @@
 #endif
 
 #include "Point.h"
+#include "Ship.h"
 #include "Vector.h"
 #include "Object.h"
 #include <string>
@@ -36,6 +37,7 @@ class Comet{
 		void setPosition(Point item);
 		Point getPosition();
 		double getSize();
+		void didHitShip(Ship& ship);
 	protected:
 		Point position;
 		double angle;
