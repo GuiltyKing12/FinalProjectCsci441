@@ -34,7 +34,7 @@ public:
 		//orbitSpeed = 1 / 40;
     }
     
-    Planet(double radius, Point pos, Vector dir, double revolution, GLuint handle, Track orbitalPath, int numMoons, double moonRad, double moonsize) {
+    Planet(double radius, Point pos, Vector dir, double revolution, GLuint handle, Track orbitalPath) {
         planetRadius = radius;
         position = pos;
         direction = dir;
@@ -47,10 +47,10 @@ public:
 		orbitPos = 0;
 		currentPoint = 0;
 		//orbitSpeed = 1 / 40;
-        moons = MoonSystem(moonRad, numMoons, moonsize);
+        //moons = MoonSystem(moonRad, numMoons, moonsize);
     }
     
-    Planet(double radius, Point pos, Vector dir, double revolution, GLuint handle, GLuint handle2, double ringRadius, Track orbitalPath, int numMoons, double moonRad, double moonsize) {
+    Planet(double radius, Point pos, Vector dir, double revolution, GLuint handle, GLuint handle2, double ringRadius, Track orbitalPath) {
         planetRadius = radius;
         position = pos;
         direction = dir;
@@ -64,7 +64,7 @@ public:
 		orbit = orbitalPath;
 		orbitPos = 0;
 		currentPoint = 0;
-        moons = MoonSystem(moonRad, numMoons, moonsize);
+        //moons = MoonSystem(moonRad, numMoons, moonsize);
 		//orbitSpeed = 1 / 40;
     }
     
