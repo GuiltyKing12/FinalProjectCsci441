@@ -1,9 +1,11 @@
-Brandon Her - bher@mines.edu
-Rouge One Star Lords
+Jose "Kito" Acosta - jacosta@mymail.mines.edu
+Guild: Rogue One Star Lords
+Guild Members: 	Brandon Her (Turning in the Code)
+				Kento Okamoto
 
 Final Project - Keys to the Kingdom
 
-Description: This is a basic simulation of the solar system. By controlling a space ship one can fly through and see the eight planets (pluto ain't a planet anymore) and the sun. There is an asteroid belt and the sun. There are baisc collisons as well.
+Description: This is a basic simulation of the Solar System. By controlling a spaceship, one can fly through the Solar System and see the eight planets (Pluto ain't a planet anymore). There is also an asteroid belt and the Sun. There are basic collisions as well.
 
 Instruction:
   Run: enter in './keysToTheKingdom'
@@ -20,11 +22,11 @@ Instruction:
             'p' - pauses the solar system
             'r' - resets the spaceship in case of destruction
 
-            camera is automatically set to arc ball intially
+            camera is automatically set to arc ball initially
             right click brings up menu to change camera type
 
             arcball - click drag to move around space ship
-                    - ctrl click drag horiztonally to zoom
+                    - ctrl click drag horizontally to zoom
 
             free cam - click drag to change heading
                      - 'i' to move forward
@@ -41,11 +43,11 @@ Instruction:
           - we hard coded the files because it reads from many different types, can be set to read, but here
             are the file types
 
-          Main solarsytem text
+          Main solarsystem text
           <number of bodies>
           <S for sun> <radius> <x> <y> <z> <revolution>
           <P for planet> <radius> <x> <y> <z> <revolution> <planet texture> <1 ring planet> <ring texture> <ring radius> <bez control points> <speed>
-                                                                            <0 non ring planet> <bez control ponts><speed>
+                                                                            <0 non ring planet> <bez control points><speed>
           <A for asteroid> <size> <radius> <angle> <speed> <obj file>
 
   Distribution of Work:
@@ -56,12 +58,12 @@ Instruction:
       - planet and sun 
       - all shader programs
       - particles systems
-      - some of the collsions
+      - some of the collisions
     
     Kento
       - Asteroid
       - asteroid belt
-      - collisons
+      - collisions
       - skybox
     
     Kito
