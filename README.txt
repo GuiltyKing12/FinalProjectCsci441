@@ -48,7 +48,7 @@ Instruction:
           <S for sun> <radius> <x> <y> <z> <revolution>
           <P for planet> <radius> <x> <y> <z> <revolution> <planet texture> <1 ring planet> <ring texture> <ring radius> <bez control points> <speed>
                                                                             <0 non ring planet> <bez control points><speed>
-          <A for asteroid> <size> <radius> <angle> <speed> <obj file>
+          <A for asteroid> <min radius> <max radius> <min size> <max size> <Number of Asteroids> <speed>
 
   Distribution of Work:
     Brandon:
