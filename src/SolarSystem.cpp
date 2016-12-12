@@ -146,7 +146,22 @@ bool SolarSystem::readfile(string inputfile) {
 
 				//if( !bezierPoints(attr[10].substr(1), orbitalPath) ) return false;
                 orbitalPath = Track(attr[10].substr(1), atof(attr[11].c_str()));
-
+                
+                int numMoons;
+                double radius;
+                double moonRad;
+                
+                if(attr[10].substr(1) == "1") {
+                    numMoons = atoi(attr[11].c_str());
+                    radius = atof(attr[12].c_str());
+                    moonRad = atof(attr[13].c_str());
+                }
+                else {
+                    numMoons = 0;
+                    radius = 0;
+                    moonRad = 0;
+                }
+                
                 planets.push_back(Planet(atof(attr[1].c_str()),
                    planpos,
                    Vector(0, 1, 0),
@@ -154,18 +169,40 @@ bool SolarSystem::readfile(string inputfile) {
                    texHandle,
                    texHandle2,
                    atof(attr[9].c_str()),
-                   orbitalPath));
+                   orbitalPath,
+                                         numMoons,
+                                         radius,
+                                         moonRad));
             }
             else {
 				//if( !bezierPoints(attr[8].substr(1), orbitalPath) ) return false;
                 orbitalPath = Track(attr[8].substr(1), atof(attr[9].c_str()));
 
+                int numMoons;
+                double radius;
+                double moonRad;
+                
+                if(attr[10].substr(1) == "1") {
+                    numMoons = atoi(attr[11].c_str());
+                    radius = atof(attr[12].c_str());
+                    moonRad = atof(attr[13].c_str());
+                    cout << numMoons << " " << radius << " " << moonRad << endl;
+                }
+                else {
+                    numMoons = 0;
+                    radius = 0;
+                    moonRad = 0;
+                }
+                
                 planets.push_back(Planet(atof(attr[1].c_str()),
                  planpos,
                  Vector(0, 1, 0),
                  atof(attr[5].c_str()),
                  texHandle,
-                 orbitalPath));
+                 orbitalPath,
+                                         numMoons,
+                                         radius,
+                                         moonRad));
             }
         }else if(attr[0] == "A"){
             asteroidSystem = AsteroidSystem(atof(attr[1].c_str()),

@@ -18,6 +18,7 @@ void Planet::draw() {
         glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT, ambCol );
         
         glTranslatef(position.getX(), position.getY(), position.getZ());
+        moons.draw();
         glRotatef(-45, 1, 0, 0);
         glRotatef(currentRevolution, 0, 0, 1);
         glEnable(GL_TEXTURE_2D);
@@ -35,8 +36,7 @@ void Planet::draw() {
         }
         glPopMatrix();
         glDisable(GL_TEXTURE_2D);
-        glTranslatef(planetRadius+100, 0, 0);
-        glutSolidSphere(planetRadius/10, 30, 30);
+        
     }
     glPopMatrix();
     

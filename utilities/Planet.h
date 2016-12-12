@@ -18,6 +18,7 @@
 #include "Point.h"
 #include "Vector.h"
 #include "Track.h"
+#include "MoonSystem.h"
 
 class Planet {
 public:
@@ -33,7 +34,7 @@ public:
 		//orbitSpeed = 1 / 40;
     }
     
-    Planet(double radius, Point pos, Vector dir, double revolution, GLuint handle, Track orbitalPath) {
+    Planet(double radius, Point pos, Vector dir, double revolution, GLuint handle, Track orbitalPath, int numMoons, double moonRad, double moonsize) {
         planetRadius = radius;
         position = pos;
         direction = dir;
@@ -46,9 +47,10 @@ public:
 		orbitPos = 0;
 		currentPoint = 0;
 		//orbitSpeed = 1 / 40;
+        moons = MoonSystem(moonRad, numMoons, moonsize);
     }
     
-    Planet(double radius, Point pos, Vector dir, double revolution, GLuint handle, GLuint handle2, double ringRadius, Track orbitalPath) {
+    Planet(double radius, Point pos, Vector dir, double revolution, GLuint handle, GLuint handle2, double ringRadius, Track orbitalPath, int numMoons, double moonRad, double moonsize) {
         planetRadius = radius;
         position = pos;
         direction = dir;
@@ -62,6 +64,7 @@ public:
 		orbit = orbitalPath;
 		orbitPos = 0;
 		currentPoint = 0;
+        moons = MoonSystem(moonRad, numMoons, moonsize);
 		//orbitSpeed = 1 / 40;
     }
     
@@ -93,6 +96,8 @@ protected:
     double planetRadius;
     double ringRadius;
     double gravityRadius;
+    
+    MoonSystem moons;
     
     int t; // if we decide to use bezier curve
 };

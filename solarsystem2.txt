@@ -1,11 +1,11 @@
 10
 S, 1091, 0, 0, 0, .05
-P, 11.4, 0, 0, 1475, 1, mercurymap.jpg, 0, mercuryControlPoints.csv, 700
-P, 28.5, 0, 0, 2305.7, 1, venusmap.jpg, 0, venusControlPoints.csv, 900
-P, 30.0, 0, 0, 3000, .09, earthmap1k.jpg, 0, earthControlPoints.csv, 800
-P, 15.9, 0, 0, 4310, .09, mars_1k_color.jpg, 0, marsControlPoints.csv, 1000
-P, 336.0, 0, 0, 5375, .05, jupitermap.jpg, 0, jupiterControlPoints.csv, 2000
-P, 283.5, 0, 0, 7930, .04, saturnmap.jpg, 1, saturnringcolor.jpg, 350, saturnControlPoints.csv, 1700
-P, 120.0, 0, 0, 12240, .03, uranusmap.jpg, 0, uranusControlPoints.csv, 1400
-P, 116.4, 0, 0, 16460, .02, neptunemap.jpg, 0, neptuneControlPoints.csv, 600
+P, 11.4, 0, 0, 1475, 1, mercurymap.jpg, 0, mercuryControlPoints.csv, 700, 0
+P, 28.5, 0, 0, 2305.7, 1, venusmap.jpg, 0, venusControlPoints.csv, 900, 0
+P, 30.0, 0, 0, 3000, .09, earthmap1k.jpg, 0, earthControlPoints.csv, 800, 1, 1, 32.0, 1
+P, 15.9, 0, 0, 4310, .09, mars_1k_color.jpg, 0, marsControlPoints.csv, 1000, 0, 2, 16.9, 1
+P, 336.0, 0, 0, 5375, .05, jupitermap.jpg, 0, jupiterControlPoints.csv, 2000, 0, 67, 346, 1
+P, 283.5, 0, 0, 7930, .04, saturnmap.jpg, 1, saturnringcolor.jpg, 350, saturnControlPoints.csv, 1700, 0, 67, 293, 1
+P, 120.0, 0, 0, 12240, .03, uranusmap.jpg, 0, uranusControlPoints.csv, 1400, 0, 27, 130, 1
+P, 116.4, 0, 0, 16460, .02, neptunemap.jpg, 0, neptuneControlPoints.csv, 600, 0, 14, 126, 1
 A, 4500, 5000, 1, 2, 100, 2
