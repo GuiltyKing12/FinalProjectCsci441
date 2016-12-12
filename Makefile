@@ -21,12 +21,12 @@
 ## compile against.
 ########################################
 
-TARGET = finalProject
+TARGET = keysToTheKingdom
 SOURCES = $(wildcard *.cpp)
 SOURCES += $(wildcard src/*.cpp)
 OBJECTS = $(SOURCES:.cpp=.o)
 
-COMP = -1
+COMP = 0
 
 LOCAL_INC_PATH = /opt/local/include
 LOCAL_LIB_PATH = /opt/local/lib
